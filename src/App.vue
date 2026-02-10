@@ -71,11 +71,16 @@
             </transition>
           </div>
 
-          <!-- 🆕 1. ADMIN TUGMASI -->
           <button v-if="isAdmin" class="admin-btn" @click="showAdminPanel = !showAdminPanel" title="Admin Panel">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
               <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2"/>
               <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </button>
+
+          <button v-if="isAdmin" class="logout-btn" @click="logout" title="Chiqish">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
 
@@ -98,7 +103,6 @@
       </div>
     </nav>
 
-    <!-- 🆕 2. ADMIN PANEL MODAL -->
     <transition name="modal-fade">
       <div class="modal-overlay" v-if="showAdminPanel" @click="showAdminPanel = false">
         <div class="admin-modal" @click.stop>
@@ -154,14 +158,14 @@
       </div>
     </transition>
 
-    <!-- 🆕 3. EMAIL LOGIN MODAL -->
     <transition name="modal-fade">
       <div class="modal-overlay" v-if="showEmailLogin" @click="showEmailLogin = false">
         <div class="email-modal" @click.stop>
           <button class="modal-close" @click="showEmailLogin = false">✕</button>
-          <h3>📧 Email bilan kirish</h3>
-          <p class="email-desc">Admin paneliga kirish uchun emailingizni kiriting</p>
+          <h3>🔐 Admin kirish</h3>
+          <p class="email-desc">Admin paneliga kirish uchun emailingiz va parolni kiriting</p>
           <input type="email" v-model="loginEmail" placeholder="Email manzilingiz" class="email-input">
+          <input type="password" v-model="loginPassword" placeholder="Parol" class="email-input">
           <button class="btn btn-pri btn-full" @click="checkAdminLogin">Kirish</button>
         </div>
       </div>
@@ -195,14 +199,12 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             {{ t.hero.viewAll }}
           </button>
-          <!-- 🆕 4. ADMIN LOGIN BUTTON -->
           <button v-if="!isAdmin" class="btn btn-ghost" @click="showEmailLogin = true">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             Admin
           </button>
         </div>
 
-        <!-- 🆕 5. REALTIME STATS -->
         <div class="stats anim-in" style="--d:0.75s">
           <div class="stat" v-for="(s,i) in heroStats" :key="i">
             <div class="stat-n">
@@ -324,7 +326,6 @@
           <p class="sec-p reveal">{{ t.req.sub }}</p>
         </div>
 
-        <!-- 🆕 6. ADVANCED FILTERS -->
         <div class="filter-controls reveal">
           <div class="pills">
             <button class="pill" :class="{ on: actFilt === 'all' }" @click="actFilt='all'">
@@ -337,7 +338,6 @@
             </button>
           </div>
 
-          <!-- 🆕 7. SORT OPTIONS -->
           <div class="sort-options">
             <button class="sort-btn" :class="{ active: sortBy === 'likes' }" @click="sortBy = 'likes'">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2"/></svg>
@@ -358,8 +358,7 @@
             LIVE
           </span>
         </div>
-
-        <!-- 🆕 8. SEARCH BAR -->
+                       
         <div class="search-bar reveal">
           <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
             <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -369,12 +368,11 @@
         </div>
 
         <transition-group name="card-list" tag="div" class="req-grid">
-          <div v-for="(r, idx) in sorted" :key="r.id" class="rcard reveal vis" :style="{ '--di': idx }" @mousemove="tilt($event)" @mouseleave="untilt($event)">
+          <div v-for="(r, idx) in sorted" :key="r.id" class="rcard reveal vis" :style="{ '--di': idx }">
             <div class="rcard-shine"></div>
             <div class="rcard-glow"></div>
             <div class="rcard-new" v-if="isNew(r)">🆕</div>
             
-            <!-- 🆕 9. TRENDING BADGE -->
             <div class="rcard-trending" v-if="isTrending(r)">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                 <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -415,7 +413,6 @@
           </div>
         </transition>
 
-        <!-- 🆕 10. LOAD MORE BUTTON -->
         <div class="load-more-section" v-if="hasMoreRequests">
           <button class="btn btn-out load-more-btn" @click="loadMore">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -511,16 +508,21 @@ export default {
       justLiked: null,
       newRequestIds: [],
       
-      // 🆕 NEW FEATURES
       isAdmin: false,
       showAdminPanel: false,
       showEmailLogin: false,
       loginEmail: '',
+      loginPassword: '',
       adminEmail: '123sanjarbe@gmail.com',
+      adminPassword: '123Sanjar3211',
       adminSearch: '',
-      sortBy: 'likes', // 'likes' or 'date'
+      sortBy: 'likes', 
       searchQuery: '',
       displayLimit: 12,
+
+      // Real-time polling
+      pollingInterval: null,
+      lastFetchTime: 0,
 
       langs: [
         { code: 'uz', name: "O'zbek", flag: '🇺🇿' },
@@ -603,12 +605,10 @@ export default {
     sorted() {
       let list = [...this.reqs]
       
-      // Filter by category
       if (this.actFilt !== 'all') {
         list = list.filter(r => r.category === this.actFilt)
       }
       
-      // Filter by search query
       if (this.searchQuery.trim()) {
         const q = this.searchQuery.toLowerCase()
         list = list.filter(r => 
@@ -618,14 +618,12 @@ export default {
         )
       }
       
-      // Sort
       if (this.sortBy === 'likes') {
         list.sort((a, b) => (b.likes || 0) - (a.likes || 0))
       } else {
         list.sort((a, b) => new Date(b.date) - new Date(a.date))
       }
       
-      // Limit display
       return list.slice(0, this.displayLimit)
     },
     totalLikes() {
@@ -668,7 +666,7 @@ export default {
     reqs: { 
       deep: true, 
       handler(v) { 
-        localStorage.setItem('xv_reqs', JSON.stringify(v))
+        this.saveToLocalStorage()
         this.$nextTick(() => {
           this.updateStats()
         })
@@ -682,7 +680,8 @@ export default {
     this.uid = localStorage.getItem('xv_uid') || this.mkUid()
     this.isAdmin = localStorage.getItem('xv_admin') === 'true'
     
-    try { this.reqs = JSON.parse(localStorage.getItem('xv_reqs') || '[]') } catch(e) {}
+    this.loadFromLocalStorage()
+    this.startRealTimePolling()
     
     window.addEventListener('scroll', this.onScroll)
     document.addEventListener('click', this.handleClickOutside)
@@ -698,6 +697,7 @@ export default {
     window.removeEventListener('scroll', this.onScroll)
     document.removeEventListener('click', this.handleClickOutside)
     if (this.animId) cancelAnimationFrame(this.animId)
+    if (this.pollingInterval) clearInterval(this.pollingInterval)
   },
 
   methods: {
@@ -705,6 +705,104 @@ export default {
       const id='u_'+Date.now().toString(36)+Math.random().toString(36).slice(2,8)
       localStorage.setItem('xv_uid',id)
       return id 
+    },
+
+    startRealTimePolling() {
+      this.pollingInterval =setInterval(() => this.fetchNewRequests(), 15000)
+    },
+
+    async fetchNewRequests() {
+      try {
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw942zwfIeumx4oYQ6DwWXj8VcM_5yBervTdn_C-mTzzKE8Ughlie-cLYXBUZMd0d7p/exec'
+        
+        const response = await fetch(`${scriptURL}?action=getAll&timestamp=${Date.now()}`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          
+          if (data && data.requests && Array.isArray(data.requests)) {
+            this.mergeNewRequests(data.requests)
+          }
+        }
+      } catch (error) {
+        console.error('Polling xatosi:', error)
+      }
+    },
+
+    mergeNewRequests(serverRequests) {
+      const currentIds = new Set(this.reqs.map(r => r.id))
+      const newRequests = []
+
+      serverRequests.forEach(serverReq => {
+        const existingReq = this.reqs.find(r => r.id === serverReq.id)
+        
+        if (!existingReq) {
+
+          newRequests.push({
+            ...serverReq,
+            likedBy: this.loadLikedByForRequest(serverReq.id) || []
+          })
+        } else {
+          existingReq.likes = serverReq.likes || 0
+          existingReq.category = serverReq.category
+          existingReq.text = serverReq.text
+          existingReq.region = serverReq.region
+          existingReq.date = serverReq.date
+        }
+      })
+
+      if (newRequests.length > 0) {
+        this.reqs = [...newRequests, ...this.reqs]
+        this.saveToLocalStorage()
+      }
+    },
+
+    loadLikedByForRequest(requestId) {
+      const likesData = JSON.parse(localStorage.getItem('xv_likes') || '{}')
+      return likesData[requestId] || []
+    },
+
+    saveLikedByForRequest(requestId, likedBy) {
+      const likesData = JSON.parse(localStorage.getItem('xv_likes') || '{}')
+      likesData[requestId] = likedBy
+      localStorage.setItem('xv_likes', JSON.stringify(likesData))
+    },
+
+    loadFromLocalStorage() {
+      try {
+        const stored = localStorage.getItem('xv_reqs')
+        if (stored) {
+          this.reqs = JSON.parse(stored)
+          
+          this.reqs.forEach(req => {
+            if (!req.likedBy) {
+              req.likedBy = this.loadLikedByForRequest(req.id)
+            }
+          })
+        }
+      } catch(e) { 
+        console.error('Load error:', e)
+        this.reqs = [] 
+      }
+    },
+
+    saveToLocalStorage() {
+      try {
+        localStorage.setItem('xv_reqs', JSON.stringify(this.reqs))
+        
+        this.reqs.forEach(req => {
+          if (req.likedBy && req.likedBy.length > 0) {
+            this.saveLikedByForRequest(req.id, req.likedBy)
+          }
+        })
+      } catch(e) {
+        console.error('Save error:', e)
+      }
     },
 
     onScroll() {
@@ -750,23 +848,49 @@ export default {
       }
     },
 
-    // 🆕 ADMIN METHODS
     checkAdminLogin() {
-      if (this.loginEmail.toLowerCase().trim() === this.adminEmail.toLowerCase()) {
+      if (this.loginEmail.toLowerCase().trim() === this.adminEmail.toLowerCase() && 
+          this.loginPassword.trim() === this.adminPassword) {
         this.isAdmin = true
         localStorage.setItem('xv_admin', 'true')
         this.showEmailLogin = false
         this.showToast('Admin sifatida kirdingiz!', false)
         this.loginEmail = ''
+        this.loginPassword = ''
       } else {
-        this.showToast('Email noto\'g\'ri!', true)
+        this.showToast('Email yoki parol noto\'g\'ri!', true)
       }
     },
 
-    deleteRequest(id) {
+    logout() {
+      this.isAdmin = false
+      localStorage.setItem('xv_admin', 'false')
+      this.showAdminPanel = false
+      this.showToast('Tizimdan chiqdingiz!', false)
+    },
+
+    async deleteRequest(id) {
       if (confirm('Bu taklifni o\'chirmoqchimisiz?')) {
-        this.reqs = this.reqs.filter(r => r.id !== id)
-        this.showToast('Taklif o\'chirildi!', false)
+        try {
+          const scriptURL = 'https://script.google.com/macros/s/AKfycbw942zwfIeumx4oYQ6DwWXj8VcM_5yBervTdn_C-mTzzKE8Ughlie-cLYXBUZMd0d7p/exec'
+          
+          const formData = new URLSearchParams()
+          formData.append('action', 'delete')
+          formData.append('id', id)
+
+          await fetch(scriptURL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formData.toString()
+          })
+
+          this.reqs = this.reqs.filter(r => r.id !== id)
+          this.showToast('Taklif o\'chirildi!', false)
+        } catch(e) {
+          console.error('Delete error:', e)
+          this.showToast('O\'chirishda xatolik!', true)
+        }
       }
     },
 
@@ -787,13 +911,13 @@ export default {
       c.width = window.innerWidth
       c.height = window.innerHeight
       
-      this.particles = Array.from({ length: 120 }, () => ({
+      this.particles = Array.from({ length: 60 }, () => ({
         x: Math.random() * c.width,
         y: Math.random() * c.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        r: Math.random() * 2 + 0.5,
-        a: Math.random() * 0.6 + 0.2
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 1.5 + 0.5,
+        a: Math.random() * 0.5 + 0.2
       }))
       
       this.drawLoop()
@@ -830,12 +954,12 @@ export default {
           const dy = this.particles[i].y - this.particles[j].y
           const d = Math.sqrt(dx * dx + dy * dy)
           
-          if(d < 120) {
+          if(d < 100) {
             ctx.beginPath()
             ctx.moveTo(this.particles[i].x, this.particles[i].y)
             ctx.lineTo(this.particles[j].x, this.particles[j].y)
-            ctx.strokeStyle = `rgba(${col},${(1 - d / 120) * 0.2})`
-            ctx.lineWidth = 1
+            ctx.strokeStyle = `rgba(${col},${(1 - d / 100) * 0.15})`
+            ctx.lineWidth = 0.8
             ctx.stroke()
           }
         }
@@ -880,18 +1004,6 @@ export default {
       this.animateCounters()
     },
 
-    tilt(e) {
-      const card = e.currentTarget
-      const r = card.getBoundingClientRect()
-      const rx = ((r.height / 2 - (e.clientY - r.top)) / r.height) * 8
-      const ry = (((e.clientX - r.left) - r.width / 2) / r.width) * 8
-      card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.03)`
-    },
-
-    untilt(e) { 
-      e.currentTarget.style.transform = '' 
-    },
-
     selectCategory(c) {
       this.nw.cat = c
       this.err.cat = ''
@@ -926,6 +1038,27 @@ export default {
       return ok
     },
 
+    async sendTelegramNotification(text, category, region) {
+      const botToken = '7743930999:AAHpsCFzDCeqyrmsFqFd8eyP18ks6SPgWV4'
+      const chatId = '8585002118'
+      
+      const message = `🆕 Yangi taklif!\n\n📂 Kategoriya: ${category}\n📍 Viloyat: ${region}\n✍️ Taklif: ${text}\n\n⏰ Vaqt: ${new Date().toLocaleString('uz-UZ')}`
+      
+      try {
+        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+            parse_mode: 'HTML'
+          })
+        })
+      } catch(e) {
+        console.error('Telegram xabar yuborishda xatolik:', e)
+      }
+    },
+
     async send() {
       if(!this.validate()) return;
       
@@ -933,11 +1066,14 @@ export default {
       
       const scriptURL = 'https://script.google.com/macros/s/AKfycbw942zwfIeumx4oYQ6DwWXj8VcM_5yBervTdn_C-mTzzKE8Ughlie-cLYXBUZMd0d7p/exec';
 
+      const newReqId = Date.now()
       const formData = new URLSearchParams();
-      formData.append('vaqt', new Date().toLocaleString('uz-UZ'));
-      formData.append('kategoriya', this.nw.cat);             
-      formData.append('taklif', this.nw.txt);                  
-      formData.append('viloyat', this.nw.reg);                   
+      formData.append('id', newReqId)
+      formData.append('vaqt', new Date().toISOString());
+      formData.append('kategoriya', this.nw.cat);
+      formData.append('taklif', this.nw.txt);
+      formData.append('viloyat', this.nw.reg);
+      formData.append('likes', 0);
 
       try {
         await fetch(scriptURL, {
@@ -948,7 +1084,7 @@ export default {
         });
 
         const newReq = {
-          id: Date.now(),
+          id: newReqId,
           category: this.nw.cat,
           text: this.nw.txt,
           region: this.nw.reg,
@@ -956,7 +1092,10 @@ export default {
           likes: 0,
           likedBy: []
         };
+        
         this.reqs = [newReq, ...this.reqs];
+
+        await this.sendTelegramNotification(this.nw.txt, this.nw.cat, this.nw.reg);
 
         this.nw = { cat: '', txt: '', reg: '' };
         this.showToast(this.t.toast.ok, false);
@@ -975,11 +1114,13 @@ export default {
       return (r.likedBy || []).includes(this.uid) 
     },
 
-    like(r) {
+    async like(r) {
       if(!r.likedBy) r.likedBy = []
       if(!r.likes) r.likes = 0
       
+      const wasLiked = r.likedBy.includes(this.uid)
       const i = r.likedBy.indexOf(this.uid)
+      
       if(i > -1) {
         r.likedBy.splice(i, 1)
         r.likes--
@@ -992,6 +1133,25 @@ export default {
       }
       
       this.reqs = [...this.reqs]
+      this.saveToLocalStorage()
+
+      try {
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw942zwfIeumx4oYQ6DwWXj8VcM_5yBervTdn_C-mTzzKE8Ughlie-cLYXBUZMd0d7p/exec'
+        
+        const formData = new URLSearchParams()
+        formData.append('action', 'updateLikes')
+        formData.append('id', r.id)
+        formData.append('likes', r.likes)
+
+        await fetch(scriptURL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData.toString()
+        })
+      } catch(e) {
+        console.error('Like update error:', e)
+      }
     },
 
     isNew(r) {
@@ -1023,6 +1183,28 @@ export default {
 }
 </script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -1035,27 +1217,27 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .app{min-height:100vh;background:var(--bg);color:var(--txt);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;overflow-x:hidden;position:relative;transition:background .5s ease,color .5s ease}
 
 .noise-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px 160px}
-.app.dark .noise-overlay{opacity:.045}
-.app.light .noise-overlay{opacity:.025}
+.app.dark .noise-overlay{opacity:.04}
+.app.light .noise-overlay{opacity:.02}
 
 .ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.orb{position:absolute;border-radius:50%;filter:blur(120px);animation:driftOrb 25s ease-in-out infinite alternate}
-.app.dark .orb{opacity:.5}
-.app.light .orb{opacity:.2}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);animation:driftOrb 20s ease-in-out infinite alternate;will-change:transform}
+.app.dark .orb{opacity:.4}
+.app.light .orb{opacity:.15}
 
-.orb-1{width:700px;height:700px;background:#7c3aed;top:-250px;left:-220px;animation-delay:0s}
-.orb-2{width:550px;height:550px;background:#a855f7;top:25%;right:-200px;animation-delay:-6s}
-.orb-3{width:600px;height:600px;background:#ea580c;bottom:-220px;left:12%;animation-delay:-12s}
-.orb-4{width:420px;height:420px;background:#0ea5e9;bottom:20%;left:-130px;animation-delay:-16s}
-.orb-5{width:350px;height:350px;background:#e879f9;top:10%;left:55%;animation-delay:-8s}
-.orb-6{width:480px;height:480px;background:#8b5cf6;top:60%;right:10%;animation-delay:-20s}
+.orb-1{width:500px;height:500px;background:#7c3aed;top:-200px;left:-180px;animation-delay:0s}
+.orb-2{width:400px;height:400px;background:#a855f7;top:20%;right:-150px;animation-delay:-5s}
+.orb-3{width:450px;height:450px;background:#ea580c;bottom:-180px;left:10%;animation-delay:-10s}
+.orb-4{width:350px;height:350px;background:#0ea5e9;bottom:15%;left:-100px;animation-delay:-14s}
+.orb-5{width:300px;height:300px;background:#e879f9;top:8%;left:50%;animation-delay:-7s}
+.orb-6{width:380px;height:380px;background:#8b5cf6;top:55%;right:8%;animation-delay:-17s}
 
-@keyframes driftOrb{0%{transform:translate(0,0) scale(1)}100%{transform:translate(60px,-80px) scale(1.15)}}
+@keyframes driftOrb{0%{transform:translate(0,0) scale(1)}100%{transform:translate(50px,-60px) scale(1.1)}}
 
 .particle-canvas{position:absolute;inset:0;width:100%;height:100%}
-.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(167,139,250,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,0.06) 1px,transparent 1px);background-size:60px 60px}
-.app.light .grid-bg{opacity:.6}
-.gradient-overlay{position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(167,139,250,0.08),transparent 50%)}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(167,139,250,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,0.05) 1px,transparent 1px);background-size:50px 50px}
+.app.light .grid-bg{opacity:.5}
+.gradient-overlay{position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(167,139,250,0.06),transparent 50%)}
 
 .progress-bar{position:fixed;top:0;left:0;height:3px;z-index:9999;background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc3));transition:width .1s linear}
 .progress-glow{position:absolute;right:-3px;top:-4px;width:12px;height:12px;border-radius:50%;background:var(--acc2);box-shadow:0 0 20px 8px var(--acc2)}
@@ -1093,11 +1275,15 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .lang-dropdown-enter-active,.lang-dropdown-leave-active{transition:all .3s cubic-bezier(0.4,0,0.2,1)}
 .lang-dropdown-enter-from,.lang-dropdown-leave-to{opacity:0;transform:translateY(-10px) scale(0.95)}
 
-/* 🆕 ADMIN BUTTON STYLES */
 .admin-btn{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#ef4444,#dc2626);border:1px solid rgba(239,68,68,0.3);display:flex;align-items:center;justify-content:center;color:#fff;transition:all .3s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden}
 .admin-btn:hover{transform:scale(1.1);box-shadow:0 8px 32px rgba(239,68,68,0.5)}
 .admin-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(45deg,transparent,rgba(255,255,255,0.2),transparent);transform:translateX(-100%);transition:transform .5s}
 .admin-btn:hover::before{transform:translateX(100%)}
+
+.logout-btn{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#f59e0b,#ea580c);border:1px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center;color:#fff;transition:all .3s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden}
+.logout-btn:hover{transform:scale(1.1);box-shadow:0 8px 32px rgba(245,158,11,0.5)}
+.logout-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(45deg,transparent,rgba(255,255,255,0.2),transparent);transform:translateX(-100%);transition:transform .5s}
+.logout-btn:hover::before{transform:translateX(100%)}
 
 .tbtn{width:44px;height:44px;border-radius:14px;background:var(--card);border:1px solid var(--brd);font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .3s cubic-bezier(0.4,0,0.2,1)}
 .tbtn:hover{transform:scale(1.1) rotate(15deg);box-shadow:0 6px 24px var(--glow)}
@@ -1115,7 +1301,6 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .mlink:hover{color:var(--txt);background:var(--brd);padding-left:2.5rem}
 .mlink-icon{font-size:1.2rem}
 
-/* 🆕 MODAL STYLES */
 .modal-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:2rem}
 
 .admin-modal{background:var(--card);border:1px solid var(--brd);border-radius:32px;max-width:900px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:var(--shadow);backdrop-filter:blur(40px)}
@@ -1150,7 +1335,6 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .admin-delete-btn{width:44px;height:44px;border-radius:50%;background:rgba(239,68,68,0.1);border:2px solid rgba(239,68,68,0.3);color:#ef4444;flex-shrink:0;transition:all .3s cubic-bezier(0.4,0,0.2,1)}
 .admin-delete-btn:hover{background:#ef4444;color:#fff;transform:scale(1.1);box-shadow:0 8px 24px rgba(239,68,68,0.4)}
 
-/* 🆕 EMAIL LOGIN MODAL */
 .email-modal{background:var(--card);border:1px solid var(--brd);border-radius:28px;padding:3rem 2.5rem;max-width:480px;width:100%;box-shadow:var(--shadow);backdrop-filter:blur(40px);text-align:center;position:relative}
 .modal-close{position:absolute;top:1.5rem;right:1.5rem;width:32px;height:32px;border-radius:50%;background:var(--brd);color:var(--txt);font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .3s ease}
 .modal-close:hover{background:var(--acc);color:#fff;transform:rotate(90deg)}
@@ -1197,7 +1381,6 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .btn-out{background:var(--card);backdrop-filter:blur(16px);border:2px solid var(--brd);color:var(--txt)}
 .btn-out:hover{border-color:var(--acc);box-shadow:0 12px 36px var(--glow);transform:translateY(-3px)}
 
-/* 🆕 GHOST BUTTON */
 .btn-ghost{background:transparent;backdrop-filter:none;border:2px solid var(--brd);color:var(--txt2)}
 .btn-ghost:hover{border-color:var(--acc);color:var(--acc);box-shadow:0 8px 28px var(--glow);transform:translateY(-3px)}
 
@@ -1238,25 +1421,33 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 @media(max-width:600px){.feat-grid{grid-template-columns:1fr}}
 
 .fcard{position:relative;overflow:hidden;background:var(--card);backdrop-filter:blur(30px);border:1px solid var(--brd);border-radius:24px;padding:2.5rem 2rem;transition:all .4s cubic-bezier(0.4,0,0.2,1);cursor:pointer}
-.fcard:hover{box-shadow:var(--shadow);border-color:var(--acc);transform:translateY(-8px)}
+
+@media (hover: hover) {
+  .fcard:hover{box-shadow:var(--shadow);border-color:var(--acc);transform:translateY(-8px)}
+  .fcard:hover .fcard-glow{opacity:.3}
+  .fcard:hover .fcard-border{opacity:1}
+  .fcard:hover .fcard-sparkle{opacity:1;animation:sparkle 1.5s ease infinite}
+  .fcard:hover .ficon{transform:scale(1.1) rotate(5deg)}
+  .fcard:hover .ftitle{color:var(--acc)}
+  .fcard:hover .fdesc{color:var(--txt)}
+  .fcard:hover .fcard-arrow{opacity:1;transform:translateX(0)}
+}
+
+@media (hover: none) {
+  .fcard:active{box-shadow:var(--shadow);border-color:var(--acc);transform:translateY(-4px)}
+}
+
 .fcard-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:180px;height:180px;border-radius:50%;background:var(--acc);filter:blur(70px);opacity:0;transition:opacity .5s ease;pointer-events:none}
-.fcard:hover .fcard-glow{opacity:.3}
 .fcard-border{position:absolute;inset:0;border-radius:24px;pointer-events:none;opacity:0;transition:opacity .5s ease;z-index:0}
-.fcard:hover .fcard-border{opacity:1}
 .fcard-border::before{content:'';position:absolute;inset:-1px;border-radius:25px;background:linear-gradient(135deg,transparent 30%,var(--acc),var(--acc2),transparent 70%);z-index:0}
 .fcard-border::after{content:'';position:absolute;inset:1px;border-radius:23px;background:var(--card-s);z-index:1}
 .fcard-sparkle{position:absolute;top:20px;right:20px;width:6px;height:6px;background:var(--acc);border-radius:50%;opacity:0;transition:opacity .3s ease;z-index:2}
-.fcard:hover .fcard-sparkle{opacity:1;animation:sparkle 1.5s ease infinite}
 @keyframes sparkle{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
 
 .ficon{font-size:2.5rem;margin-bottom:1.2rem;transition:transform .3s ease;position:relative;z-index:2}
-.fcard:hover .ficon{transform:scale(1.1) rotate(5deg)}
 .ftitle{font-size:1.15rem;font-weight:800;color:var(--txt);margin-bottom:.7rem;transition:color .3s ease;position:relative;z-index:2}
-.fcard:hover .ftitle{color:var(--acc)}
 .fdesc{color:var(--txt2);font-size:.92rem;line-height:1.75;transition:color .3s ease;position:relative;z-index:2}
-.fcard:hover .fdesc{color:var(--txt)}
 .fcard-arrow{position:absolute;bottom:1.5rem;right:1.5rem;font-size:1.2rem;color:var(--acc);opacity:0;transform:translateX(-10px);transition:all .3s ease;z-index:2}
-.fcard:hover .fcard-arrow{opacity:1;transform:translateX(0)}
 
 .sec-sub{background:linear-gradient(180deg,rgba(232,121,249,0.05) 0%,transparent 100%)}
 .form-box{max-width:700px;margin:0 auto;position:relative;background:var(--card);backdrop-filter:blur(35px);border:1px solid var(--brd);border-radius:32px;padding:3rem 2.5rem;box-shadow:var(--shadow)}
@@ -1294,7 +1485,6 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 
 .sec-req{background:linear-gradient(180deg,transparent 0%,rgba(251,146,60,0.05) 100%)}
 
-/* 🆕 FILTER CONTROLS */
 .filter-controls{margin-bottom:2rem}
 .pills{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:1.5rem}
 .pill{display:flex;align-items:center;gap:.5rem;padding:.55rem 1.5rem;border-radius:20px;font-size:.85rem;font-weight:700;background:var(--card);backdrop-filter:blur(12px);border:2px solid var(--brd);color:var(--txt2);transition:all .3s cubic-bezier(0.4,0,0.2,1)}
@@ -1302,7 +1492,6 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .pill.on{background:linear-gradient(135deg,var(--acc),var(--acc2));border-color:transparent;color:#fff;box-shadow:0 6px 22px var(--glow)}
 .pill-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 .4rem;border-radius:12px;font-size:.75rem;font-weight:800;background:rgba(255,255,255,0.2)}
 
-/* 🆕 SORT OPTIONS */
 .sort-options{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
 .sort-btn{display:flex;align-items:center;gap:.5rem;padding:.6rem 1.3rem;border-radius:16px;font-size:.85rem;font-weight:700;background:var(--card);border:2px solid var(--brd);color:var(--txt2);transition:all .3s cubic-bezier(0.4,0,0.2,1)}
 .sort-btn:hover{border-color:var(--acc);color:var(--txt)}
@@ -1312,7 +1501,6 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .live-indicator{display:inline-flex;align-items:center;gap:.4rem;margin-left:1rem;padding:.3rem .8rem;border-radius:12px;background:rgba(239,68,68,0.1);color:#ef4444;font-weight:700;font-size:.7rem}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#ef4444;animation:pulse 2s infinite}
 
-/* 🆕 SEARCH BAR */
 .search-bar{position:relative;max-width:600px;margin:0 auto 3rem;display:flex;align-items:center;background:var(--card);border:2px solid var(--brd);border-radius:20px;padding:.8rem 1.5rem;transition:all .3s ease}
 .search-bar:focus-within{border-color:var(--acc);box-shadow:0 0 0 4px var(--glow)}
 .search-icon{color:var(--txt3);flex-shrink:0}
@@ -1331,15 +1519,18 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .card-list-move{transition:transform .5s cubic-bezier(0.4,0,0.2,1)}
 
 .rcard{position:relative;overflow:hidden;background:var(--card);backdrop-filter:blur(30px);border:1px solid var(--brd);border-radius:24px;padding:1.8rem;display:flex;flex-direction:column;gap:1rem;transition:all .4s cubic-bezier(0.4,0,0.2,1);will-change:transform}
-.rcard:hover{box-shadow:var(--shadow);border-color:var(--acc)}
+
+@media (hover: hover) {
+  .rcard:hover{box-shadow:var(--shadow);border-color:var(--acc)}
+  .rcard:hover .rcard-shine{left:160%}
+  .rcard:hover .rcard-glow{opacity:.2}
+}
+
 .rcard-shine{position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.1),transparent);transition:left .6s ease;pointer-events:none}
-.rcard:hover .rcard-shine{left:160%}
 .rcard-glow{position:absolute;bottom:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:var(--acc);filter:blur(80px);opacity:0;transition:opacity .5s ease;pointer-events:none}
-.rcard:hover .rcard-glow{opacity:.2}
 .rcard-new{position:absolute;top:1rem;right:1rem;font-size:1.2rem;animation:bounce 1s ease infinite}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 
-/* 🆕 TRENDING BADGE */
 .rcard-trending{position:absolute;top:1rem;left:1rem;display:flex;align-items:center;gap:.4rem;padding:.4rem .9rem;border-radius:14px;background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.5px;box-shadow:0 4px 16px rgba(245,158,11,0.4);z-index:10}
 
 .rcard-top{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;position:relative;z-index:1}
@@ -1366,7 +1557,6 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .empty-ic{font-size:4rem;margin-bottom:1.5rem;animation:float 3s ease-in-out infinite}
 .empty p{color:var(--txt3);font-size:1.1rem}
 
-/* 🆕 LOAD MORE SECTION */
 .load-more-section{text-align:center;margin-top:3rem}
 .load-more-btn{padding:1rem 3rem}
 
