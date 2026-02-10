@@ -71,6 +71,14 @@
             </transition>
           </div>
 
+          <!-- 🆕 1. ADMIN TUGMASI -->
+          <button v-if="isAdmin" class="admin-btn" @click="showAdminPanel = !showAdminPanel" title="Admin Panel">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2"/>
+              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </button>
+
           <button class="tbtn" @click="toggleTheme">
             <span class="theme-icon">{{ theme === 'dark' ? '☀️' : '🌙' }}</span>
           </button>
@@ -89,6 +97,75 @@
         </a>
       </div>
     </nav>
+
+    <!-- 🆕 2. ADMIN PANEL MODAL -->
+    <transition name="modal-fade">
+      <div class="modal-overlay" v-if="showAdminPanel" @click="showAdminPanel = false">
+        <div class="admin-modal" @click.stop>
+          <div class="admin-header">
+            <h3>🔐 Admin Panel</h3>
+            <button class="admin-close" @click="showAdminPanel = false">✕</button>
+          </div>
+          
+          <div class="admin-stats-grid">
+            <div class="admin-stat-card">
+              <div class="admin-stat-icon">📊</div>
+              <div class="admin-stat-value">{{ reqs.length }}</div>
+              <div class="admin-stat-label">Jami Takliflar</div>
+            </div>
+            <div class="admin-stat-card">
+              <div class="admin-stat-icon">❤️</div>
+              <div class="admin-stat-value">{{ totalLikes }}</div>
+              <div class="admin-stat-label">Jami Ovozlar</div>
+            </div>
+            <div class="admin-stat-card">
+              <div class="admin-stat-icon">📅</div>
+              <div class="admin-stat-value">{{ todayRequests }}</div>
+              <div class="admin-stat-label">Bugungi Takliflar</div>
+            </div>
+          </div>
+
+          <div class="admin-search">
+            <input type="text" v-model="adminSearch" placeholder="🔍 Qidirish..." class="admin-search-input">
+          </div>
+
+          <div class="admin-requests">
+            <div v-for="r in filteredAdminRequests" :key="r.id" class="admin-req-item">
+              <div class="admin-req-content">
+                <div class="admin-req-meta">
+                  <span class="admin-req-badge">{{ r.category }}</span>
+                  <span class="admin-req-region">📍 {{ r.region }}</span>
+                  <span class="admin-req-date">{{ fmtDate(r.date) }}</span>
+                </div>
+                <p class="admin-req-text">{{ r.text }}</p>
+                <div class="admin-req-stats">
+                  <span>❤️ {{ r.likes || 0 }} ovoz</span>
+                  <span>👤 {{ r.likedBy?.length || 0 }} foydalanuvchi</span>
+                </div>
+              </div>
+              <button class="admin-delete-btn" @click="deleteRequest(r.id)" title="O'chirish">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </transition>
+
+    <!-- 🆕 3. EMAIL LOGIN MODAL -->
+    <transition name="modal-fade">
+      <div class="modal-overlay" v-if="showEmailLogin" @click="showEmailLogin = false">
+        <div class="email-modal" @click.stop>
+          <button class="modal-close" @click="showEmailLogin = false">✕</button>
+          <h3>📧 Email bilan kirish</h3>
+          <p class="email-desc">Admin paneliga kirish uchun emailingizni kiriting</p>
+          <input type="email" v-model="loginEmail" placeholder="Email manzilingiz" class="email-input">
+          <button class="btn btn-pri btn-full" @click="checkAdminLogin">Kirish</button>
+        </div>
+      </div>
+    </transition>
 
     <section id="hero" class="hero">
       <div class="hero-inner">
@@ -118,8 +195,14 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             {{ t.hero.viewAll }}
           </button>
+          <!-- 🆕 4. ADMIN LOGIN BUTTON -->
+          <button v-if="!isAdmin" class="btn btn-ghost" @click="showEmailLogin = true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Admin
+          </button>
         </div>
 
+        <!-- 🆕 5. REALTIME STATS -->
         <div class="stats anim-in" style="--d:0.75s">
           <div class="stat" v-for="(s,i) in heroStats" :key="i">
             <div class="stat-n">
@@ -241,24 +324,48 @@
           <p class="sec-p reveal">{{ t.req.sub }}</p>
         </div>
 
-        <div class="pills reveal">
-          <button class="pill" :class="{ on: actFilt === 'all' }" @click="actFilt='all'">
-            <span class="pill-count">{{ reqs.length }}</span>
-            {{ t.req.all }}
-          </button>
-          <button v-for="c in cats" :key="c" class="pill" :class="{ on: actFilt === c }" @click="actFilt = c">
-            <span class="pill-count">{{ reqs.filter(r => r.category === c).length }}</span>
-            {{ c }}
-          </button>
+        <!-- 🆕 6. ADVANCED FILTERS -->
+        <div class="filter-controls reveal">
+          <div class="pills">
+            <button class="pill" :class="{ on: actFilt === 'all' }" @click="actFilt='all'">
+              <span class="pill-count">{{ reqs.length }}</span>
+              {{ t.req.all }}
+            </button>
+            <button v-for="c in cats" :key="c" class="pill" :class="{ on: actFilt === c }" @click="actFilt = c">
+              <span class="pill-count">{{ reqs.filter(r => r.category === c).length }}</span>
+              {{ c }}
+            </button>
+          </div>
+
+          <!-- 🆕 7. SORT OPTIONS -->
+          <div class="sort-options">
+            <button class="sort-btn" :class="{ active: sortBy === 'likes' }" @click="sortBy = 'likes'">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2"/></svg>
+              Eng ko'p ovoz
+            </button>
+            <button class="sort-btn" :class="{ active: sortBy === 'date' }" @click="sortBy = 'date'">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2"/></svg>
+              Eng yangi
+            </button>
+          </div>
         </div>
 
         <div class="sortlabel reveal">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 16V4M7 16l-3-3M7 16l3-3M17 8v12M17 8l3 3M17 8l-3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          {{ t.req.sorted }}
+          {{ sortBy === 'likes' ? "Eng ko'p ovoz olgan oldinda" : "Eng yangi oldinda" }}
           <span class="live-indicator">
             <span class="live-dot"></span>
             LIVE
           </span>
+        </div>
+
+        <!-- 🆕 8. SEARCH BAR -->
+        <div class="search-bar reveal">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <input type="text" v-model="searchQuery" placeholder="Takliflarni qidirish..." class="search-input">
+          <button v-if="searchQuery" class="search-clear" @click="searchQuery = ''">✕</button>
         </div>
 
         <transition-group name="card-list" tag="div" class="req-grid">
@@ -266,6 +373,14 @@
             <div class="rcard-shine"></div>
             <div class="rcard-glow"></div>
             <div class="rcard-new" v-if="isNew(r)">🆕</div>
+            
+            <!-- 🆕 9. TRENDING BADGE -->
+            <div class="rcard-trending" v-if="isTrending(r)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Trending
+            </div>
             
             <div class="rcard-top">
               <span class="rbadge">{{ r.category }}</span>
@@ -296,9 +411,19 @@
         <transition name="fade">
           <div class="empty" v-if="sorted.length === 0">
             <div class="empty-ic">🌐</div>
-            <p>{{ t.req.empty }}</p>
+            <p>{{ searchQuery ? "Hech narsa topilmadi" : t.req.empty }}</p>
           </div>
         </transition>
+
+        <!-- 🆕 10. LOAD MORE BUTTON -->
+        <div class="load-more-section" v-if="hasMoreRequests">
+          <button class="btn btn-out load-more-btn" @click="loadMore">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            Yana yuklash
+          </button>
+        </div>
       </div>
     </section>
 
@@ -361,464 +486,542 @@
   </div>
 </template>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <script>
-  export default {
-    name: 'App',
-    data() {
-      return {
-        theme: 'dark',
-        cur: 'uz',
-        scrolled: false,
-        scrollPct: 0,
-        mOpen: false,
-        langMenuOpen: false,
-        actFilt: 'all',
-        nw: { cat: '', txt: '', reg: '' },
-        err: { cat: '', txt: '', reg: '' },
-        sending: false,
-        reqs: [],
-        uid: '',
-        toastOn: false,
-        toastMsg: '',
-        toastErr: false,
-        animId: null,
-        particles: [],
-        justLiked: null,
-        newRequestIds: [],
-
-        langs: [
-          { code: 'uz', name: "O'zbek", flag: '🇺🇿' },
-          { code: 'ru', name: 'Русский', flag: '🇷🇺' },
-          { code: 'en', name: 'English', flag: '🇬🇧' }
-        ],
-        cats: ["Ta'lim","Sog'liqni Saqlash","Yo'llar","Ekologiya","Sport","Madaniyat","Iqtisodiyot","Boshqa"],
-        regs: ['Toshkent sh.','Toshkent vil.','Andijon vil.','Buxoro vil.',"Farg'ona vil.",'Jizzax vil.','Xorazm vil.','Namangan vil.','Navoiy vil.','Qashqadaryo vil.','Qoraqalpog\'iston Res.','Samarqand vil.','Sirdaryo vil.','Surxondaryo vil.'],
-
-        i18n: {
-          uz: {
-            brand:'Xalq Ovozi',
-            hero:{ badge:'Yangi platforma', line1:'Ovozingiz', line2:'Muhim!', desc:"Jamiyat uchun muhim bo'lgan takliflaringizni yuboring. Eng ko'p ovoz to'plagan takliflar amalga oshiriladi.", cta:'Talab Yuborish', viewAll:"Talablarni Ko'rish" },
-            why:{ tag:'Nega biz', title:"Xalq Ovozi — Haqiqiy O'zgartirish", sub:"Biz xalq fikrini eshitamiz va eng muhim takliflarni amalga oshiramiz", list:[
-              { ic:'🗳️', title:'Demokratik Ovoz', desc:"Har bir fuqaro o'z fikrini bildirib, jamiyat rivojga hissa qo'shadi." },
-              { ic:'👁️', title:'Shaffoflik', desc:"Barcha takliflar ochiq. Ko'p ovoz to'plagan takliflar birinchi amalga oshiriladi." },
-              { ic:'⚡', title:'Tezkor Javob', desc:"Eng dolzarb muammolarni tez va samarali hal qilish uchun darhol ko'rib chiqamiz." },
-              { ic:'📍', title:"Viloyatlar Bo'yicha", desc:"Har viloyatning o'ziga xos muammolarini alohida e'tiborga olamiz." },
-              { ic:'🤝', title:'Hamjamiyat', desc:"Birgalikda biz kuchliymiz. Jamoa bo'lib yurtimizni go'zallashtramiz." },
-              { ic:'🌱', title:'Barqaror Rivojlanish', desc:'Uzoq muddatli va barqaror yechimlarni topishga intilamiz.' }
-            ]},
-            sub:{ tag:'Taklad', title:'Taklifingiz Yuboring', sub:"O'z fikr-mulohazalaringizni bildiring", catLbl:'Kategoriya', txtLbl:'Taklifingiz', ph:'Taklifingizni batafsil yozing...', regLbl:'Viloyat', selReg:'Viloyatni tanlang', btn:'Yuborish', ld:'Yuklanmoqda', discl:"Sizning talabingiz ko'rib chiqiladi va eng ko'p ovoz to'plagan takliflar amalga oshiriladi." },
-            req:{ tag:'Talablar', title:'Barcha Talablar', sub:"Ovoz bering va eng muhim takliflarni qo'llab-quvvatlang", all:'Hammasi', sorted:"Eng ko'p ovoz bolan oldinda", empty:"Hozircha talablar yo'q" },
-            ft:{ desc:"Xalq uchun, xalq tomonidan — birgalikda yaxshiroq kelajak quramiz.", links:'Tezkor Havolalar', rights:'Barcha huquqlar himoyalangan.' },
-            toast:{ ok:'Taklifingiz muvaffaqiyatli yuborildi!', bad:"Xatolik yuz berdi. Qaytadan urinib ko'ring." },
-            v:{ cat:'Kategoriyani tanlang', txt:'Taklifingizni yozing', txtM:'Kamida 10 belgi yozing', reg:'Viloyatni tanlang' }
-          },
-          ru: {
-            brand:'Голос Народа',
-            hero:{ badge:'Новая платформа', line1:'Ваш голос', line2:'Важен!', desc:'Отправьте предложения, важные для общества. Предложения с наибольшим числом голосов будут реализованы.', cta:'Отправить Запрос', viewAll:'Смотреть Запросы' },
-            why:{ tag:'Почему мы', title:'Голос Народа — Реальные Перемены', sub:'Мы слушаем мнение людей и реализуем самые важные предложения', list:[
-              { ic:'🗳️', title:'Демократический Голос', desc:'Каждый гражданин может высказать свое мнение и внести вклад.' },
-              { ic:'👁️', title:'Прозрачность', desc:'Все предложения открыты. С наибольшим числом голосов реализуются первыми.' },
-              { ic:'⚡', title:'Быстрый Ответ', desc:'Немедленно рассматриваем для быстрого решения актуальных проблем.' },
-              { ic:'📍', title:'По Регионам', desc:'Особое внимание специфическим проблемам каждого региона.' },
-              { ic:'🤝', title:'Сообщество', desc:'Вместе мы сильнее. Командой делаем страну прекраснее.' },
-              { ic:'🌱', title:'Устойчивое Развитие', desc:'Долгосрочные и устойчивые решения, а не временные.' }
-            ]},
-            sub:{ tag:'Запрос', title:'Отправьте Предложение', sub:'Выскажите свое мнение', catLbl:'Категория', txtLbl:'Ваше предложение', ph:'Опишите предложение подробно...', regLbl:'Область', selReg:'Выберите область', btn:'Отправить', ld:'Загрузка', discl:'Ваш запрос будет рассмотрен и предложения с наибольшим числом голосов реализованы.' },
-            req:{ tag:'Запросы', title:'Все Запросы', sub:'Голосуйте и поддерживайте важные предложения', all:'Все', sorted:'Сортировка по голосам', empty:'Пока нет запросов' },
-            ft:{ desc:'Для народа, от народа — вместе строим лучшее будущее.', links:'Быстрые Ссылки', rights:'Все права защищены.' },
-            toast:{ ok:'Успешно отправлено!', bad:'Произошла ошибка. Попробуйте снова.' },
-            v:{ cat:'Выберите категорию', txt:'Напишите предложение', txtM:'Минимум 10 символов', reg:'Выберите область' }
-          },
-          en: {
-            brand:"People's Voice",
-            hero:{ badge:'New Platform', line1:'Your Voice', line2:'Matters!', desc:'Submit proposals important for society. Proposals with the most votes will be implemented.', cta:'Submit Request', viewAll:'View Requests' },
-            why:{ tag:'Why Us', title:"People's Voice — Real Change", sub:'We listen to the people and implement the most important proposals', list:[
-              { ic:'🗳️', title:'Democratic Voice', desc:'Every citizen can express opinion and contribute to society.' },
-              { ic:'👁️', title:'Transparency', desc:'All proposals open. Most voted implemented first.' },
-              { ic:'⚡', title:'Quick Response', desc:'We immediately review demands to solve pressing problems fast.' },
-              { ic:'📍', title:'By Regions', desc:'Special attention to specific problems of each region.' },
-              { ic:'🤝', title:'Community', desc:'Together we are stronger. As a team we make our country better.' },
-              { ic:'🌱', title:'Sustainable Dev', desc:'Long-term and sustainable solutions, not temporary fixes.' }
-            ]},
-            sub:{ tag:'Submit', title:'Submit Your Proposal', sub:'Share your thoughts', catLbl:'Category', txtLbl:'Your Proposal', ph:'Describe your proposal in detail...', regLbl:'Region', selReg:'Select region', btn:'Submit', ld:'Loading', discl:'Your request will be reviewed. Proposals with most votes will be implemented.' },
-            req:{ tag:'Requests', title:'All Requests', sub:'Vote and support the most important proposals', all:'All', sorted:'Sorted by most votes', empty:'No requests yet' },
-            ft:{ desc:'For the people, by the people — building a better future together.', links:'Quick Links', rights:'All rights reserved.' },
-            toast:{ ok:'Successfully submitted!', bad:'An error occurred. Try again.' },
-            v:{ cat:'Select a category', txt:'Write your proposal', txtM:'At least 10 characters', reg:'Select a region' }
-          }
-        }
-      }
-    },
-
-    computed: {
-      t() { return this.i18n[this.cur] },
-      navItems() {
-        const h = { uz:['Bosh sahifa','Nega biz','Talab yuborish','Talablar'], ru:['Главная','Почему мы','Запрос','Запросы'], en:['Home','Why Us','Submit','Requests'] }
-        return ['hero','about','submit','requests'].map((id,i) => ({ id, label: h[this.cur][i] }))
-      },
-      heroStats() {
-        const l = { uz:['Talablar','Ovozlar','Kategoriyalar'], ru:['Запросов','Голосов','Категории'], en:['Requests','Votes','Categories'] }
-        return [
-          { val: this.reqs.length, lbl: l[this.cur][0] },
-          { val: this.reqs.reduce((s,r)=>s+(r.likes||0),0), lbl: l[this.cur][1] },
-          { val: this.cats.length, lbl: l[this.cur][2] }
-        ]
-      },
-      sorted() {
-        let list = [...this.reqs]
-        if (this.actFilt !== 'all') list = list.filter(r => r.category === this.actFilt)
-        return list.sort((a,b) => (b.likes||0) - (a.likes||0))
-      }
-    },
-
-    watch: {
-      theme(v) { localStorage.setItem('xv_theme', v) },
-      cur(v) { localStorage.setItem('xv_lang', v) },
-      reqs: { 
-        deep: true, 
-        handler(v) { 
-          localStorage.setItem('xv_reqs', JSON.stringify(v))
-          this.$nextTick(() => {
-            this.updateStats()
-          })
-        } 
-      }
-    },
-
-    mounted() {
-      this.theme = localStorage.getItem('xv_theme') || 'dark'
-      this.cur = localStorage.getItem('xv_lang') || 'uz'
-      this.uid = localStorage.getItem('xv_uid') || this.mkUid()
-      try { this.reqs = JSON.parse(localStorage.getItem('xv_reqs') || '[]') } catch(e) {}
+<script>
+export default {
+  name: 'App',
+  data() {
+    return {
+      theme: 'dark',
+      cur: 'uz',
+      scrolled: false,
+      scrollPct: 0,
+      mOpen: false,
+      langMenuOpen: false,
+      actFilt: 'all',
+      nw: { cat: '', txt: '', reg: '' },
+      err: { cat: '', txt: '', reg: '' },
+      sending: false,
+      reqs: [],
+      uid: '',
+      toastOn: false,
+      toastMsg: '',
+      toastErr: false,
+      animId: null,
+      particles: [],
+      justLiked: null,
+      newRequestIds: [],
       
-      window.addEventListener('scroll', this.onScroll)
-      document.addEventListener('click', this.handleClickOutside)
-      
-      this.$nextTick(() => { 
-        this.initCanvas()
-        this.observe()
-        this.animateCounters()
-      })
-    },
+      // 🆕 NEW FEATURES
+      isAdmin: false,
+      showAdminPanel: false,
+      showEmailLogin: false,
+      loginEmail: '',
+      adminEmail: '123sanjarbe@gmail.com',
+      adminSearch: '',
+      sortBy: 'likes', // 'likes' or 'date'
+      searchQuery: '',
+      displayLimit: 12,
 
-    beforeUnmount() {
-      window.removeEventListener('scroll', this.onScroll)
-      document.removeEventListener('click', this.handleClickOutside)
-      if (this.animId) cancelAnimationFrame(this.animId)
-    },
+      langs: [
+        { code: 'uz', name: "O'zbek", flag: '🇺🇿' },
+        { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+        { code: 'en', name: 'English', flag: '🇬🇧' }
+      ],
+      cats: ["Ta'lim","Sog'liqni Saqlash","Yo'llar","Ekologiya","Sport","Madaniyat","Iqtisodiyot","Boshqa"],
+      regs: ['Toshkent sh.','Toshkent vil.','Andijon vil.','Buxoro vil.',"Farg'ona vil.",'Jizzax vil.','Xorazm vil.','Namangan vil.','Navoiy vil.','Qashqadaryo vil.','Qoraqalpog\'iston Res.','Samarqand vil.','Sirdaryo vil.','Surxondaryo vil.'],
 
-    methods: {
-      mkUid() { 
-        const id='u_'+Date.now().toString(36)+Math.random().toString(36).slice(2,8)
-        localStorage.setItem('xv_uid',id)
-        return id 
-      },
-
-      onScroll() {
-        this.scrolled = window.scrollY > 50
-        const el = document.documentElement
-        this.scrollPct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100
-      },
-
-      goto(id) { 
-        const el = document.getElementById(id)
-        if(el) {
-          el.scrollIntoView({ behavior:'smooth' })
-          this.mOpen = false
+      i18n: {
+        uz: {
+          brand:'Xalq Ovozi',
+          hero:{ badge:'Yangi platforma', line1:'Ovozingiz', line2:'Muhim!', desc:"Jamiyat uchun muhim bo'lgan takliflaringizni yuboring. Eng ko'p ovoz to'plagan takliflar amalga oshiriladi.", cta:'Talab Yuborish', viewAll:"Talablarni Ko'rish" },
+          why:{ tag:'Nega biz', title:"Xalq Ovozi — Haqiqiy O'zgartirish", sub:"Biz xalq fikrini eshitamiz va eng muhim takliflarni amalga oshiramiz", list:[
+            { ic:'🗳️', title:'Demokratik Ovoz', desc:"Har bir fuqaro o'z fikrini bildirib, jamiyat rivojga hissa qo'shadi." },
+            { ic:'👁️', title:'Shaffoflik', desc:"Barcha takliflar ochiq. Ko'p ovoz to'plagan takliflar birinchi amalga oshiriladi." },
+            { ic:'⚡', title:'Tezkor Javob', desc:"Eng dolzarb muammolarni tez va samarali hal qilish uchun darhol ko'rib chiqamiz." },
+            { ic:'📍', title:"Viloyatlar Bo'yicha", desc:"Har viloyatning o'ziga xos muammolarini alohida e'tiborga olamiz." },
+            { ic:'🤝', title:'Hamjamiyat', desc:"Birgalikda biz kuchliymiz. Jamoa bo'lib yurtimizni go'zallashtramiz." },
+            { ic:'🌱', title:'Barqaror Rivojlanish', desc:'Uzoq muddatli va barqaror yechimlarni topishga intilamiz.' }
+          ]},
+          sub:{ tag:'Taklad', title:'Taklifingiz Yuboring', sub:"O'z fikr-mulohazalaringizni bildiring", catLbl:'Kategoriya', txtLbl:'Taklifingiz', ph:'Taklifingizni batafsil yozing...', regLbl:'Viloyat', selReg:'Viloyatni tanlang', btn:'Yuborish', ld:'Yuklanmoqda', discl:"Sizning talabingiz ko'rib chiqiladi va eng ko'p ovoz to'plagan takliflar amalga oshiriladi." },
+          req:{ tag:'Talablar', title:'Barcha Talablar', sub:"Ovoz bering va eng muhim takliflarni qo'llab-quvvatlang", all:'Hammasi', sorted:"Eng ko'p ovoz bolan oldinda", empty:"Hozircha talablar yo'q" },
+          ft:{ desc:"Xalq uchun, xalq tomonidan — birgalikda yaxshiroq kelajak quramiz.", links:'Tezkor Havolalar', rights:'Barcha huquqlar himoyalangan.' },
+          toast:{ ok:'Taklifingiz muvaffaqiyatli yuborildi!', bad:"Xatolik yuz berdi. Qaytadan urinib ko'ring." },
+          v:{ cat:'Kategoriyani tanlang', txt:'Taklifingizni yozing', txtM:'Kamida 10 belgi yozing', reg:'Viloyatni tanlang' }
+        },
+        ru: {
+          brand:'Голос Народа',
+          hero:{ badge:'Новая платформа', line1:'Ваш голос', line2:'Важен!', desc:'Отправьте предложения, важные для общества. Предложения с наибольшим числом голосов будут реализованы.', cta:'Отправить Запрос', viewAll:'Смотреть Запросы' },
+          why:{ tag:'Почему мы', title:'Голос Народа — Реальные Перемены', sub:'Мы слушаем мнение людей и реализуем самые важные предложения', list:[
+            { ic:'🗳️', title:'Демократический Голос', desc:'Каждый гражданин может высказать свое мнение и внести вклад.' },
+            { ic:'👁️', title:'Прозрачность', desc:'Все предложения открыты. С наибольшим числом голосов реализуются первыми.' },
+            { ic:'⚡', title:'Быстрый Ответ', desc:'Немедленно рассматриваем для быстрого решения актуальных проблем.' },
+            { ic:'📍', title:'По Регионам', desc:'Особое внимание специфическим проблемам каждого региона.' },
+            { ic:'🤝', title:'Сообщество', desc:'Вместе мы сильнее. Командой делаем страну прекраснее.' },
+            { ic:'🌱', title:'Устойчивое Развитие', desc:'Долгосрочные и устойчивые решения, а не временные.' }
+          ]},
+          sub:{ tag:'Запрос', title:'Отправьте Предложение', sub:'Выскажите свое мнение', catLbl:'Категория', txtLbl:'Ваше предложение', ph:'Опишите предложение подробно...', regLbl:'Область', selReg:'Выберите область', btn:'Отправить', ld:'Загрузка', discl:'Ваш запрос будет рассмотрен и предложения с наибольшим числом голосов реализованы.' },
+          req:{ tag:'Запросы', title:'Все Запросы', sub:'Голосуйте и поддерживайте важные предложения', all:'Все', sorted:'Сортировка по голосам', empty:'Пока нет запросов' },
+          ft:{ desc:'Для народа, от народа — вместе строим лучшее будущее.', links:'Быстрые Ссылки', rights:'Все права защищены.' },
+          toast:{ ok:'Успешно отправлено!', bad:'Произошла ошибка. Попробуйте снова.' },
+          v:{ cat:'Выберите категорию', txt:'Напишите предложение', txtM:'Минимум 10 символов', reg:'Выберите область' }
+        },
+        en: {
+          brand:"People's Voice",
+          hero:{ badge:'New Platform', line1:'Your Voice', line2:'Matters!', desc:'Submit proposals important for society. Proposals with the most votes will be implemented.', cta:'Submit Request', viewAll:'View Requests' },
+          why:{ tag:'Why Us', title:"People's Voice — Real Change", sub:'We listen to the people and implement the most important proposals', list:[
+            { ic:'🗳️', title:'Democratic Voice', desc:'Every citizen can express opinion and contribute to society.' },
+            { ic:'👁️', title:'Transparency', desc:'All proposals open. Most voted implemented first.' },
+            { ic:'⚡', title:'Quick Response', desc:'We immediately review demands to solve pressing problems fast.' },
+            { ic:'📍', title:'By Regions', desc:'Special attention to specific problems of each region.' },
+            { ic:'🤝', title:'Community', desc:'Together we are stronger. As a team we make our country better.' },
+            { ic:'🌱', title:'Sustainable Dev', desc:'Long-term and sustainable solutions, not temporary fixes.' }
+          ]},
+          sub:{ tag:'Submit', title:'Submit Your Proposal', sub:'Share your thoughts', catLbl:'Category', txtLbl:'Your Proposal', ph:'Describe your proposal in detail...', regLbl:'Region', selReg:'Select region', btn:'Submit', ld:'Loading', discl:'Your request will be reviewed. Proposals with most votes will be implemented.' },
+          req:{ tag:'Requests', title:'All Requests', sub:'Vote and support the most important proposals', all:'All', sorted:'Sorted by most votes', empty:'No requests yet' },
+          ft:{ desc:'For the people, by the people — building a better future together.', links:'Quick Links', rights:'All rights reserved.' },
+          toast:{ ok:'Successfully submitted!', bad:'An error occurred. Try again.' },
+          v:{ cat:'Select a category', txt:'Write your proposal', txtM:'At least 10 characters', reg:'Select a region' }
         }
-      },
-
-      getNavIcon(id) {
-        const icons = { hero: '🏠', about: '💡', submit: '✍️', requests: '📋' }
-        return icons[id] || '•'
-      },
-
-      toggleTheme() {
-        this.theme = this.theme === 'dark' ? 'light' : 'dark'
-      },
-
-      toggleLangMenu() {
-        this.langMenuOpen = !this.langMenuOpen
-      },
-
-      selectLang(code) {
-        this.cur = code
-        this.langMenuOpen = false
-      },
-
-      getCurrentFlag() {
-        const lang = this.langs.find(l => l.code === this.cur)
-        return lang ? lang.flag : '🌐'
-      },
-
-      handleClickOutside(event) {
-        if (this.$refs.langDropdown && !this.$refs.langDropdown.contains(event.target)) {
-          this.langMenuOpen = false
-        }
-      },
-
-      initCanvas() {
-        const c = this.$refs.canvas
-        if(!c) return
-        c.width = window.innerWidth
-        c.height = window.innerHeight
-        
-        this.particles = Array.from({ length: 120 }, () => ({
-          x: Math.random() * c.width,
-          y: Math.random() * c.height,
-          vx: (Math.random() - 0.5) * 0.5,
-          vy: (Math.random() - 0.5) * 0.5,
-          r: Math.random() * 2 + 0.5,
-          a: Math.random() * 0.6 + 0.2
-        }))
-        
-        this.drawLoop()
-      },
-
-      drawLoop() {
-        const c = this.$refs.canvas
-        if(!c) return
-        
-        const ctx = c.getContext('2d')
-        ctx.clearRect(0, 0, c.width, c.height)
-        
-        const dk = this.theme === 'dark'
-        const col = dk ? '170,190,255' : '70,70,150'
-
-        this.particles.forEach(p => {
-          p.x += p.vx
-          p.y += p.vy
-          
-          if(p.x < 0) p.x = c.width
-          if(p.x > c.width) p.x = 0
-          if(p.y < 0) p.y = c.height
-          if(p.y > c.height) p.y = 0
-          
-          ctx.beginPath()
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(${col},${p.a})`
-          ctx.fill()
-        })
-
-        for(let i = 0; i < this.particles.length; i++) {
-          for(let j = i + 1; j < this.particles.length; j++) {
-            const dx = this.particles[i].x - this.particles[j].x
-            const dy = this.particles[i].y - this.particles[j].y
-            const d = Math.sqrt(dx * dx + dy * dy)
-            
-            if(d < 120) {
-              ctx.beginPath()
-              ctx.moveTo(this.particles[i].x, this.particles[i].y)
-              ctx.lineTo(this.particles[j].x, this.particles[j].y)
-              ctx.strokeStyle = `rgba(${col},${(1 - d / 120) * 0.2})`
-              ctx.lineWidth = 1
-              ctx.stroke()
-            }
-          }
-        }
-        
-        this.animId = requestAnimationFrame(this.drawLoop)
-      },
-
-      observe() {
-        const io = new IntersectionObserver(entries => {
-          entries.forEach(e => {
-            if(e.isIntersecting) {
-              const d = parseInt(e.target.style.getPropertyValue('--di') || '0')
-              setTimeout(() => e.target.classList.add('vis'), d * 80)
-            }
-          })
-        }, { threshold: 0.1 })
-        
-        document.querySelectorAll('.reveal').forEach(el => io.observe(el))
-      },
-
-      animateCounters() {
-        setTimeout(() => {
-          document.querySelectorAll('.count-up').forEach(el => {
-            const target = parseInt(el.getAttribute('data-target'))
-            let current = 0
-            const increment = target / 50
-            const timer = setInterval(() => {
-              current += increment
-              if(current >= target) {
-                el.textContent = target
-                clearInterval(timer)
-              } else {
-                el.textContent = Math.floor(current)
-              }
-            }, 30)
-          })
-        }, 1000)
-      },
-
-      updateStats() {
-        this.animateCounters()
-      },
-
-      tilt(e) {
-        const card = e.currentTarget
-        const r = card.getBoundingClientRect()
-        const rx = ((r.height / 2 - (e.clientY - r.top)) / r.height) * 8
-        const ry = (((e.clientX - r.left) - r.width / 2) / r.width) * 8
-        card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.03)`
-      },
-
-      untilt(e) { 
-        e.currentTarget.style.transform = '' 
-      },
-
-      selectCategory(c) {
-        this.nw.cat = c
-        this.err.cat = ''
-      },
-
-      updateCharCount() {
-        if(this.err.txt && this.nw.txt.trim().length >= 10) {
-          this.err.txt = ''
-        }
-      },
-
-      validate() {
-        this.err = { cat: '', txt: '', reg: '' }
-        let ok = true
-        
-        if(!this.nw.cat) { 
-          this.err.cat = this.t.v.cat
-          ok = false 
-        }
-        if(!this.nw.txt.trim()) { 
-          this.err.txt = this.t.v.txt
-          ok = false 
-        } else if(this.nw.txt.trim().length < 10) { 
-          this.err.txt = this.t.v.txtM
-          ok = false 
-        }
-        if(!this.nw.reg) { 
-          this.err.reg = this.t.v.reg
-          ok = false 
-        }
-        
-        return ok
-      },
-
-async send() {
-  if(!this.validate()) return;
-  
-  this.sending = true;
-  
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbw942zwfIeumx4oYQ6DwWXj8VcM_5yBervTdn_C-mTzzKE8Ughlie-cLYXBUZMd0d7p/exec';
-
-  const formData = new URLSearchParams();
-  formData.append('vaqt', new Date().toLocaleString('uz-UZ'));
-  formData.append('kategoriya', this.nw.cat);             
-  formData.append('taklif', this.nw.txt);                  
-  formData.append('viloyat', this.nw.reg);                   
-
-  try {
-    await fetch(scriptURL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: formData.toString()
-    });
-
-    const newReq = {
-      id: Date.now(),
-      category: this.nw.cat,
-      text: this.nw.txt,
-      region: this.nw.reg,
-      date: new Date().toISOString(),
-      likes: 0,
-      likedBy: []
-    };
-    this.reqs = [newReq, ...this.reqs];
-
-    this.nw = { cat: '', txt: '', reg: '' };
-    this.showToast(this.t.toast.ok, false);
-    
-    setTimeout(() => this.goto('requests'), 800);
-
-  } catch(e) { 
-    console.error('Xatolik:', e);
-    this.showToast(this.t.toast.bad, true); 
-  } finally {
-    this.sending = false;
-  }
-},
-      liked(r) { 
-        return (r.likedBy || []).includes(this.uid) 
-      },
-
-      like(r) {
-        if(!r.likedBy) r.likedBy = []
-        if(!r.likes) r.likes = 0
-        
-        const i = r.likedBy.indexOf(this.uid)
-        if(i > -1) {
-          r.likedBy.splice(i, 1)
-          r.likes--
-        } else {
-          r.likedBy.push(this.uid)
-          r.likes++
-          
-          this.justLiked = r.id
-          setTimeout(() => { this.justLiked = null }, 600)
-        }
-        
-        this.reqs = [...this.reqs]
-      },
-
-      isNew(r) {
-        return this.newRequestIds.includes(r.id)
-      },
-
-      showToast(msg, isErr) {
-        this.toastMsg = msg
-        this.toastErr = isErr
-        this.toastOn = true
-        
-        setTimeout(() => {
-          this.toastOn = false
-        }, 4000)
-      },
-
-      fmtDate(ds) {
-        const d = new Date(ds)
-        const diff = Math.floor((Date.now() - d) / 86400000)
-        
-        if(diff === 0) return this.cur === 'uz' ? 'Bugun' : this.cur === 'ru' ? 'Сегодня' : 'Today'
-        if(diff === 1) return this.cur === 'uz' ? 'Kecha' : this.cur === 'ru' ? 'Вчера' : 'Yesterday'
-        if(diff < 7) return `${diff} ${this.cur === 'uz' ? 'kun oldin' : this.cur === 'ru' ? 'дн. назад' : 'days ago'}`
-        
-        return d.toLocaleDateString(this.cur === 'uz' ? 'uz-UZ' : this.cur === 'ru' ? 'ru-RU' : 'en-US')
       }
     }
+  },
+
+  computed: {
+    t() { return this.i18n[this.cur] },
+    navItems() {
+      const h = { uz:['Bosh sahifa','Nega biz','Talab yuborish','Talablar'], ru:['Главная','Почему мы','Запрос','Запросы'], en:['Home','Why Us','Submit','Requests'] }
+      return ['hero','about','submit','requests'].map((id,i) => ({ id, label: h[this.cur][i] }))
+    },
+    heroStats() {
+      const l = { uz:['Talablar','Ovozlar','Kategoriyalar'], ru:['Запросов','Голосов','Категории'], en:['Requests','Votes','Categories'] }
+      return [
+        { val: this.reqs.length, lbl: l[this.cur][0] },
+        { val: this.totalLikes, lbl: l[this.cur][1] },
+        { val: this.cats.length, lbl: l[this.cur][2] }
+      ]
+    },
+    sorted() {
+      let list = [...this.reqs]
+      
+      // Filter by category
+      if (this.actFilt !== 'all') {
+        list = list.filter(r => r.category === this.actFilt)
+      }
+      
+      // Filter by search query
+      if (this.searchQuery.trim()) {
+        const q = this.searchQuery.toLowerCase()
+        list = list.filter(r => 
+          r.text.toLowerCase().includes(q) ||
+          r.category.toLowerCase().includes(q) ||
+          r.region.toLowerCase().includes(q)
+        )
+      }
+      
+      // Sort
+      if (this.sortBy === 'likes') {
+        list.sort((a, b) => (b.likes || 0) - (a.likes || 0))
+      } else {
+        list.sort((a, b) => new Date(b.date) - new Date(a.date))
+      }
+      
+      // Limit display
+      return list.slice(0, this.displayLimit)
+    },
+    totalLikes() {
+      return this.reqs.reduce((sum, r) => sum + (r.likes || 0), 0)
+    },
+    todayRequests() {
+      const today = new Date().toDateString()
+      return this.reqs.filter(r => new Date(r.date).toDateString() === today).length
+    },
+    filteredAdminRequests() {
+      if (!this.adminSearch.trim()) return this.reqs
+      const q = this.adminSearch.toLowerCase()
+      return this.reqs.filter(r =>
+        r.text.toLowerCase().includes(q) ||
+        r.category.toLowerCase().includes(q) ||
+        r.region.toLowerCase().includes(q)
+      )
+    },
+    hasMoreRequests() {
+      let total = this.reqs.length
+      if (this.actFilt !== 'all') {
+        total = this.reqs.filter(r => r.category === this.actFilt).length
+      }
+      if (this.searchQuery.trim()) {
+        const q = this.searchQuery.toLowerCase()
+        total = this.reqs.filter(r => 
+          r.text.toLowerCase().includes(q) ||
+          r.category.toLowerCase().includes(q) ||
+          r.region.toLowerCase().includes(q)
+        ).length
+      }
+      return this.displayLimit < total
+    }
+  },
+
+  watch: {
+    theme(v) { localStorage.setItem('xv_theme', v) },
+    cur(v) { localStorage.setItem('xv_lang', v) },
+    isAdmin(v) { localStorage.setItem('xv_admin', v) },
+    reqs: { 
+      deep: true, 
+      handler(v) { 
+        localStorage.setItem('xv_reqs', JSON.stringify(v))
+        this.$nextTick(() => {
+          this.updateStats()
+        })
+      } 
+    }
+  },
+
+  mounted() {
+    this.theme = localStorage.getItem('xv_theme') || 'dark'
+    this.cur = localStorage.getItem('xv_lang') || 'uz'
+    this.uid = localStorage.getItem('xv_uid') || this.mkUid()
+    this.isAdmin = localStorage.getItem('xv_admin') === 'true'
+    
+    try { this.reqs = JSON.parse(localStorage.getItem('xv_reqs') || '[]') } catch(e) {}
+    
+    window.addEventListener('scroll', this.onScroll)
+    document.addEventListener('click', this.handleClickOutside)
+    
+    this.$nextTick(() => { 
+      this.initCanvas()
+      this.observe()
+      this.animateCounters()
+    })
+  },
+
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.onScroll)
+    document.removeEventListener('click', this.handleClickOutside)
+    if (this.animId) cancelAnimationFrame(this.animId)
+  },
+
+  methods: {
+    mkUid() { 
+      const id='u_'+Date.now().toString(36)+Math.random().toString(36).slice(2,8)
+      localStorage.setItem('xv_uid',id)
+      return id 
+    },
+
+    onScroll() {
+      this.scrolled = window.scrollY > 50
+      const el = document.documentElement
+      this.scrollPct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100
+    },
+
+    goto(id) { 
+      const el = document.getElementById(id)
+      if(el) {
+        el.scrollIntoView({ behavior:'smooth' })
+        this.mOpen = false
+      }
+    },
+
+    getNavIcon(id) {
+      const icons = { hero: '🏠', about: '💡', submit: '✍️', requests: '📋' }
+      return icons[id] || '•'
+    },
+
+    toggleTheme() {
+      this.theme = this.theme === 'dark' ? 'light' : 'dark'
+    },
+
+    toggleLangMenu() {
+      this.langMenuOpen = !this.langMenuOpen
+    },
+
+    selectLang(code) {
+      this.cur = code
+      this.langMenuOpen = false
+    },
+
+    getCurrentFlag() {
+      const lang = this.langs.find(l => l.code === this.cur)
+      return lang ? lang.flag : '🌐'
+    },
+
+    handleClickOutside(event) {
+      if (this.$refs.langDropdown && !this.$refs.langDropdown.contains(event.target)) {
+        this.langMenuOpen = false
+      }
+    },
+
+    // 🆕 ADMIN METHODS
+    checkAdminLogin() {
+      if (this.loginEmail.toLowerCase().trim() === this.adminEmail.toLowerCase()) {
+        this.isAdmin = true
+        localStorage.setItem('xv_admin', 'true')
+        this.showEmailLogin = false
+        this.showToast('Admin sifatida kirdingiz!', false)
+        this.loginEmail = ''
+      } else {
+        this.showToast('Email noto\'g\'ri!', true)
+      }
+    },
+
+    deleteRequest(id) {
+      if (confirm('Bu taklifni o\'chirmoqchimisiz?')) {
+        this.reqs = this.reqs.filter(r => r.id !== id)
+        this.showToast('Taklif o\'chirildi!', false)
+      }
+    },
+
+    isTrending(r) {
+      const dayAgo = Date.now() - 24 * 60 * 60 * 1000
+      const isRecent = new Date(r.date).getTime() > dayAgo
+      const hasLikes = (r.likes || 0) >= 5
+      return isRecent && hasLikes
+    },
+
+    loadMore() {
+      this.displayLimit += 12
+    },
+
+    initCanvas() {
+      const c = this.$refs.canvas
+      if(!c) return
+      c.width = window.innerWidth
+      c.height = window.innerHeight
+      
+      this.particles = Array.from({ length: 120 }, () => ({
+        x: Math.random() * c.width,
+        y: Math.random() * c.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        r: Math.random() * 2 + 0.5,
+        a: Math.random() * 0.6 + 0.2
+      }))
+      
+      this.drawLoop()
+    },
+
+    drawLoop() {
+      const c = this.$refs.canvas
+      if(!c) return
+      
+      const ctx = c.getContext('2d')
+      ctx.clearRect(0, 0, c.width, c.height)
+      
+      const dk = this.theme === 'dark'
+      const col = dk ? '170,190,255' : '70,70,150'
+
+      this.particles.forEach(p => {
+        p.x += p.vx
+        p.y += p.vy
+        
+        if(p.x < 0) p.x = c.width
+        if(p.x > c.width) p.x = 0
+        if(p.y < 0) p.y = c.height
+        if(p.y > c.height) p.y = 0
+        
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(${col},${p.a})`
+        ctx.fill()
+      })
+
+      for(let i = 0; i < this.particles.length; i++) {
+        for(let j = i + 1; j < this.particles.length; j++) {
+          const dx = this.particles[i].x - this.particles[j].x
+          const dy = this.particles[i].y - this.particles[j].y
+          const d = Math.sqrt(dx * dx + dy * dy)
+          
+          if(d < 120) {
+            ctx.beginPath()
+            ctx.moveTo(this.particles[i].x, this.particles[i].y)
+            ctx.lineTo(this.particles[j].x, this.particles[j].y)
+            ctx.strokeStyle = `rgba(${col},${(1 - d / 120) * 0.2})`
+            ctx.lineWidth = 1
+            ctx.stroke()
+          }
+        }
+      }
+      
+      this.animId = requestAnimationFrame(this.drawLoop)
+    },
+
+    observe() {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if(e.isIntersecting) {
+            const d = parseInt(e.target.style.getPropertyValue('--di') || '0')
+            setTimeout(() => e.target.classList.add('vis'), d * 80)
+          }
+        })
+      }, { threshold: 0.1 })
+      
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el))
+    },
+
+    animateCounters() {
+      setTimeout(() => {
+        document.querySelectorAll('.count-up').forEach(el => {
+          const target = parseInt(el.getAttribute('data-target'))
+          let current = 0
+          const increment = target / 50
+          const timer = setInterval(() => {
+            current += increment
+            if(current >= target) {
+              el.textContent = target
+              clearInterval(timer)
+            } else {
+              el.textContent = Math.floor(current)
+            }
+          }, 30)
+        })
+      }, 1000)
+    },
+
+    updateStats() {
+      this.animateCounters()
+    },
+
+    tilt(e) {
+      const card = e.currentTarget
+      const r = card.getBoundingClientRect()
+      const rx = ((r.height / 2 - (e.clientY - r.top)) / r.height) * 8
+      const ry = (((e.clientX - r.left) - r.width / 2) / r.width) * 8
+      card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.03)`
+    },
+
+    untilt(e) { 
+      e.currentTarget.style.transform = '' 
+    },
+
+    selectCategory(c) {
+      this.nw.cat = c
+      this.err.cat = ''
+    },
+
+    updateCharCount() {
+      if(this.err.txt && this.nw.txt.trim().length >= 10) {
+        this.err.txt = ''
+      }
+    },
+
+    validate() {
+      this.err = { cat: '', txt: '', reg: '' }
+      let ok = true
+      
+      if(!this.nw.cat) { 
+        this.err.cat = this.t.v.cat
+        ok = false 
+      }
+      if(!this.nw.txt.trim()) { 
+        this.err.txt = this.t.v.txt
+        ok = false 
+      } else if(this.nw.txt.trim().length < 10) { 
+        this.err.txt = this.t.v.txtM
+        ok = false 
+      }
+      if(!this.nw.reg) { 
+        this.err.reg = this.t.v.reg
+        ok = false 
+      }
+      
+      return ok
+    },
+
+    async send() {
+      if(!this.validate()) return;
+      
+      this.sending = true;
+      
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbw942zwfIeumx4oYQ6DwWXj8VcM_5yBervTdn_C-mTzzKE8Ughlie-cLYXBUZMd0d7p/exec';
+
+      const formData = new URLSearchParams();
+      formData.append('vaqt', new Date().toLocaleString('uz-UZ'));
+      formData.append('kategoriya', this.nw.cat);             
+      formData.append('taklif', this.nw.txt);                  
+      formData.append('viloyat', this.nw.reg);                   
+
+      try {
+        await fetch(scriptURL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: formData.toString()
+        });
+
+        const newReq = {
+          id: Date.now(),
+          category: this.nw.cat,
+          text: this.nw.txt,
+          region: this.nw.reg,
+          date: new Date().toISOString(),
+          likes: 0,
+          likedBy: []
+        };
+        this.reqs = [newReq, ...this.reqs];
+
+        this.nw = { cat: '', txt: '', reg: '' };
+        this.showToast(this.t.toast.ok, false);
+        
+        setTimeout(() => this.goto('requests'), 800);
+
+      } catch(e) { 
+        console.error('Xatolik:', e);
+        this.showToast(this.t.toast.bad, true); 
+      } finally {
+        this.sending = false;
+      }
+    },
+
+    liked(r) { 
+      return (r.likedBy || []).includes(this.uid) 
+    },
+
+    like(r) {
+      if(!r.likedBy) r.likedBy = []
+      if(!r.likes) r.likes = 0
+      
+      const i = r.likedBy.indexOf(this.uid)
+      if(i > -1) {
+        r.likedBy.splice(i, 1)
+        r.likes--
+      } else {
+        r.likedBy.push(this.uid)
+        r.likes++
+        
+        this.justLiked = r.id
+        setTimeout(() => { this.justLiked = null }, 600)
+      }
+      
+      this.reqs = [...this.reqs]
+    },
+
+    isNew(r) {
+      const hourAgo = Date.now() - 60 * 60 * 1000
+      return new Date(r.date).getTime() > hourAgo
+    },
+
+    showToast(msg, isErr) {
+      this.toastMsg = msg
+      this.toastErr = isErr
+      this.toastOn = true
+      
+      setTimeout(() => {
+        this.toastOn = false
+      }, 4000)
+    },
+
+    fmtDate(ds) {
+      const d = new Date(ds)
+      const diff = Math.floor((Date.now() - d) / 86400000)
+      
+      if(diff === 0) return this.cur === 'uz' ? 'Bugun' : this.cur === 'ru' ? 'Сегодня' : 'Today'
+      if(diff === 1) return this.cur === 'uz' ? 'Kecha' : this.cur === 'ru' ? 'Вчера' : 'Yesterday'
+      if(diff < 7) return `${diff} ${this.cur === 'uz' ? 'kun oldin' : this.cur === 'ru' ? 'дн. назад' : 'days ago'}`
+      
+      return d.toLocaleDateString(this.cur === 'uz' ? 'uz-UZ' : this.cur === 'ru' ? 'ru-RU' : 'en-US')
+    }
   }
-  </script>
+}
+</script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
@@ -890,6 +1093,12 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .lang-dropdown-enter-active,.lang-dropdown-leave-active{transition:all .3s cubic-bezier(0.4,0,0.2,1)}
 .lang-dropdown-enter-from,.lang-dropdown-leave-to{opacity:0;transform:translateY(-10px) scale(0.95)}
 
+/* 🆕 ADMIN BUTTON STYLES */
+.admin-btn{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#ef4444,#dc2626);border:1px solid rgba(239,68,68,0.3);display:flex;align-items:center;justify-content:center;color:#fff;transition:all .3s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden}
+.admin-btn:hover{transform:scale(1.1);box-shadow:0 8px 32px rgba(239,68,68,0.5)}
+.admin-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(45deg,transparent,rgba(255,255,255,0.2),transparent);transform:translateX(-100%);transition:transform .5s}
+.admin-btn:hover::before{transform:translateX(100%)}
+
 .tbtn{width:44px;height:44px;border-radius:14px;background:var(--card);border:1px solid var(--brd);font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .3s cubic-bezier(0.4,0,0.2,1)}
 .tbtn:hover{transform:scale(1.1) rotate(15deg);box-shadow:0 6px 24px var(--glow)}
 .theme-icon{display:inline-block;transition:transform .3s ease}
@@ -906,9 +1115,61 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .mlink:hover{color:var(--txt);background:var(--brd);padding-left:2.5rem}
 .mlink-icon{font-size:1.2rem}
 
+/* 🆕 MODAL STYLES */
+.modal-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:2rem}
+
+.admin-modal{background:var(--card);border:1px solid var(--brd);border-radius:32px;max-width:900px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:var(--shadow);backdrop-filter:blur(40px)}
+
+.admin-header{display:flex;align-items:center;justify-content:space-between;padding:2rem 2.5rem;border-bottom:1px solid var(--brd);position:sticky;top:0;background:var(--card);backdrop-filter:blur(40px);z-index:10}
+.admin-header h3{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.admin-close{width:36px;height:36px;border-radius:50%;background:var(--brd);color:var(--txt);font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .3s ease}
+.admin-close:hover{background:var(--acc);color:#fff;transform:rotate(90deg)}
+
+.admin-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;padding:2rem 2.5rem}
+.admin-stat-card{background:var(--card-s);border:1px solid var(--brd);border-radius:20px;padding:1.5rem;text-align:center;transition:all .3s ease}
+.admin-stat-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px var(--glow)}
+.admin-stat-icon{font-size:2rem;margin-bottom:.8rem}
+.admin-stat-value{font-size:2.2rem;font-weight:900;background:linear-gradient(135deg,var(--acc),var(--acc3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.3rem}
+.admin-stat-label{font-size:.85rem;color:var(--txt3);font-weight:600}
+
+.admin-search{padding:0 2.5rem 1.5rem}
+.admin-search-input{width:100%;padding:1rem 1.5rem;border-radius:16px;background:var(--card-s);border:2px solid var(--brd);color:var(--txt);font-size:.95rem;transition:all .3s ease}
+.admin-search-input:focus{border-color:var(--acc);box-shadow:0 0 0 4px var(--glow);outline:none}
+
+.admin-requests{padding:0 2.5rem 2rem;max-height:400px;overflow-y:auto}
+.admin-req-item{background:var(--card-s);border:1px solid var(--brd);border-radius:20px;padding:1.5rem;margin-bottom:1rem;display:flex;gap:1rem;transition:all .3s ease}
+.admin-req-item:hover{border-color:var(--acc);box-shadow:0 8px 32px var(--glow)}
+
+.admin-req-content{flex:1}
+.admin-req-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.8rem}
+.admin-req-badge{padding:.3rem .9rem;border-radius:12px;font-size:.75rem;font-weight:700;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff}
+.admin-req-region,.admin-req-date{font-size:.8rem;color:var(--txt3);font-weight:600}
+.admin-req-text{color:var(--txt);font-size:.95rem;line-height:1.7;margin-bottom:.8rem}
+.admin-req-stats{display:flex;gap:1.5rem;font-size:.85rem;color:var(--txt3);font-weight:600}
+
+.admin-delete-btn{width:44px;height:44px;border-radius:50%;background:rgba(239,68,68,0.1);border:2px solid rgba(239,68,68,0.3);color:#ef4444;flex-shrink:0;transition:all .3s cubic-bezier(0.4,0,0.2,1)}
+.admin-delete-btn:hover{background:#ef4444;color:#fff;transform:scale(1.1);box-shadow:0 8px 24px rgba(239,68,68,0.4)}
+
+/* 🆕 EMAIL LOGIN MODAL */
+.email-modal{background:var(--card);border:1px solid var(--brd);border-radius:28px;padding:3rem 2.5rem;max-width:480px;width:100%;box-shadow:var(--shadow);backdrop-filter:blur(40px);text-align:center;position:relative}
+.modal-close{position:absolute;top:1.5rem;right:1.5rem;width:32px;height:32px;border-radius:50%;background:var(--brd);color:var(--txt);font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .3s ease}
+.modal-close:hover{background:var(--acc);color:#fff;transform:rotate(90deg)}
+.email-modal h3{font-size:1.8rem;font-weight:800;margin-bottom:.8rem;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.email-desc{color:var(--txt2);font-size:.95rem;margin-bottom:2rem;line-height:1.7}
+.email-input{width:100%;padding:1rem 1.5rem;border-radius:16px;background:var(--card-s);border:2px solid var(--brd);color:var(--txt);font-size:.95rem;margin-bottom:1.5rem;transition:all .3s ease}
+.email-input:focus{border-color:var(--acc);box-shadow:0 0 0 4px var(--glow);outline:none}
+
+.modal-fade-enter-active,.modal-fade-leave-active{transition:all .4s cubic-bezier(0.4,0,0.2,1)}
+.modal-fade-enter-from,.modal-fade-leave-to{opacity:0}
+.modal-fade-enter-from .admin-modal,
+.modal-fade-enter-from .email-modal,
+.modal-fade-leave-to .admin-modal,
+.modal-fade-leave-to .email-modal{transform:scale(0.9) translateY(30px)}
+
 @media(max-width:900px){
   .nav-links{display:none}
   .mbtn{display:flex}
+  .admin-stats-grid{grid-template-columns:1fr}
 }
 
 .hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 2rem 100px;text-align:center}
@@ -935,6 +1196,11 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .btn-pri:hover{transform:translateY(-3px);box-shadow:0 16px 48px var(--glow)}
 .btn-out{background:var(--card);backdrop-filter:blur(16px);border:2px solid var(--brd);color:var(--txt)}
 .btn-out:hover{border-color:var(--acc);box-shadow:0 12px 36px var(--glow);transform:translateY(-3px)}
+
+/* 🆕 GHOST BUTTON */
+.btn-ghost{background:transparent;backdrop-filter:none;border:2px solid var(--brd);color:var(--txt2)}
+.btn-ghost:hover{border-color:var(--acc);color:var(--acc);box-shadow:0 8px 28px var(--glow);transform:translateY(-3px)}
+
 .btn-full{width:100%;justify-content:center;margin-top:.8rem}
 .btn-full:disabled{opacity:.5;transform:none!important;box-shadow:none!important;cursor:not-allowed}
 
@@ -1027,15 +1293,33 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .discl{text-align:center;margin-top:1.6rem;color:var(--txt3);font-size:.85rem;line-height:1.7}
 
 .sec-req{background:linear-gradient(180deg,transparent 0%,rgba(251,146,60,0.05) 100%)}
+
+/* 🆕 FILTER CONTROLS */
+.filter-controls{margin-bottom:2rem}
 .pills{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:1.5rem}
 .pill{display:flex;align-items:center;gap:.5rem;padding:.55rem 1.5rem;border-radius:20px;font-size:.85rem;font-weight:700;background:var(--card);backdrop-filter:blur(12px);border:2px solid var(--brd);color:var(--txt2);transition:all .3s cubic-bezier(0.4,0,0.2,1)}
 .pill:hover{border-color:var(--acc);color:var(--txt)}
 .pill.on{background:linear-gradient(135deg,var(--acc),var(--acc2));border-color:transparent;color:#fff;box-shadow:0 6px 22px var(--glow)}
 .pill-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 .4rem;border-radius:12px;font-size:.75rem;font-weight:800;background:rgba(255,255,255,0.2)}
 
+/* 🆕 SORT OPTIONS */
+.sort-options{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+.sort-btn{display:flex;align-items:center;gap:.5rem;padding:.6rem 1.3rem;border-radius:16px;font-size:.85rem;font-weight:700;background:var(--card);border:2px solid var(--brd);color:var(--txt2);transition:all .3s cubic-bezier(0.4,0,0.2,1)}
+.sort-btn:hover{border-color:var(--acc);color:var(--txt)}
+.sort-btn.active{background:linear-gradient(135deg,var(--acc),var(--acc2));border-color:transparent;color:#fff;box-shadow:0 8px 28px var(--glow)}
+
 .sortlabel{display:flex;align-items:center;gap:.5rem;justify-content:center;color:var(--txt3);font-size:.82rem;font-weight:600;margin-bottom:2rem}
 .live-indicator{display:inline-flex;align-items:center;gap:.4rem;margin-left:1rem;padding:.3rem .8rem;border-radius:12px;background:rgba(239,68,68,0.1);color:#ef4444;font-weight:700;font-size:.7rem}
 .live-dot{width:6px;height:6px;border-radius:50%;background:#ef4444;animation:pulse 2s infinite}
+
+/* 🆕 SEARCH BAR */
+.search-bar{position:relative;max-width:600px;margin:0 auto 3rem;display:flex;align-items:center;background:var(--card);border:2px solid var(--brd);border-radius:20px;padding:.8rem 1.5rem;transition:all .3s ease}
+.search-bar:focus-within{border-color:var(--acc);box-shadow:0 0 0 4px var(--glow)}
+.search-icon{color:var(--txt3);flex-shrink:0}
+.search-input{flex:1;background:transparent;border:none;outline:none;color:var(--txt);font-size:.95rem;font-family:inherit;padding:0 1rem}
+.search-input::placeholder{color:var(--txt3)}
+.search-clear{width:28px;height:28px;border-radius:50%;background:var(--brd);color:var(--txt3);font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .3s ease;flex-shrink:0}
+.search-clear:hover{background:var(--acc);color:#fff;transform:rotate(90deg)}
 
 .req-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.5rem}
 @media(max-width:700px){.req-grid{grid-template-columns:1fr}}
@@ -1054,6 +1338,9 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .rcard:hover .rcard-glow{opacity:.2}
 .rcard-new{position:absolute;top:1rem;right:1rem;font-size:1.2rem;animation:bounce 1s ease infinite}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+/* 🆕 TRENDING BADGE */
+.rcard-trending{position:absolute;top:1rem;left:1rem;display:flex;align-items:center;gap:.4rem;padding:.4rem .9rem;border-radius:14px;background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.5px;box-shadow:0 4px 16px rgba(245,158,11,0.4);z-index:10}
 
 .rcard-top{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;position:relative;z-index:1}
 .rbadge{padding:.35rem 1rem;border-radius:14px;font-size:.78rem;font-weight:700;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff}
@@ -1078,6 +1365,10 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
 .empty{text-align:center;padding:5rem 2rem}
 .empty-ic{font-size:4rem;margin-bottom:1.5rem;animation:float 3s ease-in-out infinite}
 .empty p{color:var(--txt3);font-size:1.1rem}
+
+/* 🆕 LOAD MORE SECTION */
+.load-more-section{text-align:center;margin-top:3rem}
+.load-more-btn{padding:1rem 3rem}
 
 .footer{position:relative;z-index:1;padding:4rem 2rem 2rem;border-top:1px solid var(--brd);background:linear-gradient(180deg,transparent,var(--bg2))}
 .ft-wrap{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:3rem;flex-wrap:wrap;margin-bottom:3rem}
@@ -1129,11 +1420,18 @@ button{font-family:inherit;cursor:pointer;border:none;outline:none}
   .toast{bottom:1.5rem;left:1.5rem;right:1.5rem;min-width:auto}
   .sctop{bottom:1.5rem;right:1.5rem;width:48px;height:48px}
   .nav-wrap{padding:0 1.5rem}
+  .admin-modal{margin:1rem;max-width:100%}
+  .email-modal{margin:1rem}
+  .search-bar{margin-bottom:2rem}
+  .sort-options{justify-content:stretch}
+  .sort-btn{flex:1;justify-content:center}
 }
 
 @media(max-width:500px){
   .logo-txt{display:none}
   .h1-top{font-size:2.2rem}
   .h1-bot{font-size:2.8rem}
+  .admin-stats-grid{padding:1.5rem}
+  .admin-requests{padding:0 1.5rem 1.5rem}
 }
 </style>
