@@ -1136,7 +1136,7 @@ export default {
       this.saveToLocalStorage()
 
       try {
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbw942zwfIeumx4oYQ6DwWXj8VcM_5yBervTdn_C-mTzzKE8Ughlie-cLYXBUZMd0d7p/exec'
+        const scriptURL = 'https://script.google.com/macros/s/AKfycby1OC95PuU3r2oUhs2eSpgm0c2SbsSOuFiM5gTMYCeaqEqzaF5UN6f_gxavcKlrPXoG/exec'
         
         const formData = new URLSearchParams()
         formData.append('action', 'updateLikes')
