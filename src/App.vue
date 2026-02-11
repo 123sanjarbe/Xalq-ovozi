@@ -483,33 +483,6 @@
   </div>
 </template>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
 export default {
   name: 'App',
@@ -547,6 +520,7 @@ export default {
       searchQuery: '',
       displayLimit: 12,
 
+      // Real-time polling
       pollingInterval: null,
       lastFetchTime: 0,
 
@@ -706,10 +680,8 @@ export default {
     this.uid = localStorage.getItem('xv_uid') || this.mkUid()
     this.isAdmin = localStorage.getItem('xv_admin') === 'true'
     
-    // MUHIM: Avval serverdan yuklaymiz, keyin polling boshlash
-    this.fetchNewRequests().then(() => {
-      this.startRealTimePolling()
-    })
+    this.loadFromLocalStorage()
+    this.startRealTimePolling()
     
     window.addEventListener('scroll', this.onScroll)
     document.addEventListener('click', this.handleClickOutside)
@@ -736,17 +708,18 @@ export default {
     },
 
     startRealTimePolling() {
-      this.fetchNewRequests()
-      this.pollingInterval = setInterval(() => this.fetchNewRequests(), 10000) // 10 soniya
+      this.pollingInterval =setInterval(() => this.fetchNewRequests(), 15000)
     },
 
     async fetchNewRequests() {
       try {
         const scriptURL = 'https://script.google.com/macros/s/AKfycbw942zwfIeumx4oYQ6DwWXj8VcM_5yBervTdn_C-mTzzKE8Ughlie-cLYXBUZMd0d7p/exec'
         
-        const response = await fetch(`${scriptURL}?t=${Date.now()}`, {
+        const response = await fetch(`${scriptURL}?action=getAll&timestamp=${Date.now()}`, {
           method: 'GET',
-          headers: { 'Accept': 'application/json' }
+          headers: {
+            'Accept': 'application/json'
+          }
         })
 
         if (response.ok) {
@@ -757,22 +730,24 @@ export default {
           }
         }
       } catch (error) {
-        console.error('Fetch error:', error)
+        console.error('Polling xatosi:', error)
       }
     },
 
     mergeNewRequests(serverRequests) {
+      const currentIds = new Set(this.reqs.map(r => r.id))
+      const newRequests = []
+
       serverRequests.forEach(serverReq => {
         const existingReq = this.reqs.find(r => r.id === serverReq.id)
         
         if (!existingReq) {
-          // Yangi taklif
-          this.reqs.unshift({
+
+          newRequests.push({
             ...serverReq,
             likedBy: this.loadLikedByForRequest(serverReq.id) || []
           })
         } else {
-          // Mavjud taklifni yangilash
           existingReq.likes = serverReq.likes || 0
           existingReq.category = serverReq.category
           existingReq.text = serverReq.text
@@ -780,8 +755,11 @@ export default {
           existingReq.date = serverReq.date
         }
       })
-      
-      this.saveToLocalStorage()
+
+      if (newRequests.length > 0) {
+        this.reqs = [...newRequests, ...this.reqs]
+        this.saveToLocalStorage()
+      }
     },
 
     loadLikedByForRequest(requestId) {
@@ -795,9 +773,28 @@ export default {
       localStorage.setItem('xv_likes', JSON.stringify(likesData))
     },
 
+    loadFromLocalStorage() {
+      try {
+        const stored = localStorage.getItem('xv_reqs')
+        if (stored) {
+          this.reqs = JSON.parse(stored)
+          
+          this.reqs.forEach(req => {
+            if (!req.likedBy) {
+              req.likedBy = this.loadLikedByForRequest(req.id)
+            }
+          })
+        }
+      } catch(e) { 
+        console.error('Load error:', e)
+        this.reqs = [] 
+      }
+    },
+
     saveToLocalStorage() {
       try {
         localStorage.setItem('xv_reqs', JSON.stringify(this.reqs))
+        
         this.reqs.forEach(req => {
           if (req.likedBy && req.likedBy.length > 0) {
             this.saveLikedByForRequest(req.id, req.likedBy)
@@ -1058,25 +1055,25 @@ export default {
           })
         })
       } catch(e) {
-        console.error('Telegram error:', e)
+        console.error('Telegram xabar yuborishda xatolik:', e)
       }
     },
 
     async send() {
-      if(!this.validate()) return
+      if(!this.validate()) return;
       
-      this.sending = true
+      this.sending = true;
       
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbw942zwfIeumx4oYQ6DwWXj8VcM_5yBervTdn_C-mTzzKE8Ughlie-cLYXBUZMd0d7p/exec'
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbw942zwfIeumx4oYQ6DwWXj8VcM_5yBervTdn_C-mTzzKE8Ughlie-cLYXBUZMd0d7p/exec';
 
       const newReqId = Date.now()
-      const formData = new URLSearchParams()
+      const formData = new URLSearchParams();
       formData.append('id', newReqId)
-      formData.append('vaqt', new Date().toISOString())
-      formData.append('kategoriya', this.nw.cat)
-      formData.append('taklif', this.nw.txt)
-      formData.append('viloyat', this.nw.reg)
-      formData.append('likes', 0)
+      formData.append('vaqt', new Date().toISOString());
+      formData.append('kategoriya', this.nw.cat);
+      formData.append('taklif', this.nw.txt);
+      formData.append('viloyat', this.nw.reg);
+      formData.append('likes', 0);
 
       try {
         await fetch(scriptURL, {
@@ -1084,7 +1081,7 @@ export default {
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: formData.toString()
-        })
+        });
 
         const newReq = {
           id: newReqId,
@@ -1094,22 +1091,22 @@ export default {
           date: new Date().toISOString(),
           likes: 0,
           likedBy: []
-        }
+        };
         
-        this.reqs.unshift(newReq)
+        this.reqs = [newReq, ...this.reqs];
 
-        await this.sendTelegramNotification(this.nw.txt, this.nw.cat, this.nw.reg)
+        await this.sendTelegramNotification(this.nw.txt, this.nw.cat, this.nw.reg);
 
-        this.nw = { cat: '', txt: '', reg: '' }
-        this.showToast(this.t.toast.ok, false)
+        this.nw = { cat: '', txt: '', reg: '' };
+        this.showToast(this.t.toast.ok, false);
         
-        setTimeout(() => this.goto('requests'), 800)
+        setTimeout(() => this.goto('requests'), 800);
 
       } catch(e) { 
-        console.error('Error:', e)
-        this.showToast(this.t.toast.bad, true) 
+        console.error('Xatolik:', e);
+        this.showToast(this.t.toast.bad, true); 
       } finally {
-        this.sending = false
+        this.sending = false;
       }
     },
 
@@ -1121,6 +1118,7 @@ export default {
       if(!r.likedBy) r.likedBy = []
       if(!r.likes) r.likes = 0
       
+      const wasLiked = r.likedBy.includes(this.uid)
       const i = r.likedBy.indexOf(this.uid)
       
       if(i > -1) {
@@ -1152,7 +1150,7 @@ export default {
           body: formData.toString()
         })
       } catch(e) {
-        console.error('Like error:', e)
+        console.error('Like update error:', e)
       }
     },
 
@@ -1184,6 +1182,10 @@ export default {
   }
 }
 </script>
+
+
+
+
 
 
 
