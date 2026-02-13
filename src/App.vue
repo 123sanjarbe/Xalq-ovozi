@@ -25,22 +25,24 @@
           <svg class="logo-svg" viewBox="0 0 32 32" fill="none">
             <defs>
               <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#a78bfa"/>
-                <stop offset="50%" stop-color="#e879f9"/>
-                <stop offset="100%" stop-color="#fb923c"/>
+                <stop offset="0%" stop-color="#a78bfa" />
+                <stop offset="50%" stop-color="#e879f9" />
+                <stop offset="100%" stop-color="#fb923c" />
               </linearGradient>
               <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feGaussianBlur stdDeviation="2" result="coloredBlur" />
                 <feMerge>
-                  <feMergeNode in="coloredBlur"/>
-                  <feMergeNode in="SourceGraphic"/>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
             </defs>
-            <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" stroke="url(#lg1)" stroke-width="2" fill="none" opacity="0.8" filter="url(#glow)"/>
-            <polygon points="16,8 24,13 24,19 16,24 8,19 8,13" stroke="url(#lg1)" stroke-width="1.2" fill="rgba(167,139,250,0.12)"/>
+            <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" stroke="url(#lg1)" stroke-width="2" fill="none"
+              opacity="0.8" filter="url(#glow)" />
+            <polygon points="16,8 24,13 24,19 16,24 8,19 8,13" stroke="url(#lg1)" stroke-width="1.2"
+              fill="rgba(167,139,250,0.12)" />
             <circle cx="16" cy="16" r="3" fill="url(#lg1)" filter="url(#glow)">
-              <animate attributeName="r" values="3;3.5;3" dur="2s" repeatCount="indefinite"/>
+              <animate attributeName="r" values="3;3.5;3" dur="2s" repeatCount="indefinite" />
             </circle>
           </svg>
           <span class="logo-txt">{{ t.brand }}</span>
@@ -58,12 +60,13 @@
             <button class="mobile-lang-btn" @click="toggleLangMenu">
               <span class="current-flag">{{ getCurrentFlag() }}</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
               </svg>
             </button>
             <transition name="lang-dropdown">
               <div class="lang-dropdown" v-if="langMenuOpen">
-                <button v-for="lg in langs" :key="lg.code" class="lang-option" :class="{ active: cur === lg.code }" @click="selectLang(lg.code)">
+                <button v-for="lg in langs" :key="lg.code" class="lang-option" :class="{ active: cur === lg.code }"
+                  @click="selectLang(lg.code)">
                   <span class="lang-flag">{{ lg.flag }}</span>
                   <span class="lang-name">{{ lg.name }}</span>
                 </button>
@@ -73,14 +76,17 @@
 
           <button v-if="isAdmin" class="admin-btn" @click="showAdminPanel = !showAdminPanel" title="Admin Panel">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2"/>
-              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2" />
+              <path
+                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
+                stroke="currentColor" stroke-width="2" />
             </svg>
           </button>
 
           <button v-if="isAdmin" class="logout-btn" @click="logout" title="Chiqish">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </button>
 
@@ -96,7 +102,7 @@
       </div>
 
       <div class="mmenu" :class="{ open: mOpen }">
-        <a v-for="l in navItems" :key="l.id" class="mlink" @click="goto(l.id); mOpen=false">
+        <a v-for="l in navItems" :key="l.id" class="mlink" @click="goto(l.id); mOpen = false">
           <span class="mlink-icon">{{ getNavIcon(l.id) }}</span>
           {{ l.label }}
         </a>
@@ -110,7 +116,7 @@
             <h3>🔐 Admin Panel</h3>
             <button class="admin-close" @click="showAdminPanel = false">✕</button>
           </div>
-          
+
           <div class="admin-stats-grid">
             <div class="admin-stat-card">
               <div class="admin-stat-icon">📊</div>
@@ -149,7 +155,9 @@
               </div>
               <button class="admin-delete-btn" @click="deleteRequest(r.id)" title="O'chirish">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <path
+                    d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                 </svg>
               </button>
             </div>
@@ -171,7 +179,16 @@
       </div>
     </transition>
 
-    <section id="hero" class="hero">
+
+
+
+
+
+
+
+
+    
+  <section id="hero" class="hero">
       <div class="hero-inner">
 
         <div class="badge anim-in" style="--d:0s">
@@ -192,21 +209,30 @@
         <div class="hero-btns anim-in" style="--d:0.6s">
           <button class="btn btn-pri" @click="goto('submit')">
             <span class="btn-shine"></span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12l7 7 7-7" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M12 5v14M5 12l7 7 7-7" stroke="#fff" stroke-width="2.5" stroke-linecap="round" />
+            </svg>
             {{ t.hero.cta }}
           </button>
           <button class="btn btn-out" @click="goto('requests')">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" />
+            </svg>
             {{ t.hero.viewAll }}
           </button>
           <button v-if="!isAdmin" class="btn btn-ghost" @click="showEmailLogin = true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
             Admin
           </button>
         </div>
 
         <div class="stats anim-in" style="--d:0.75s">
-          <div class="stat" v-for="(s,i) in heroStats" :key="i">
+          <div class="stat" v-for="(s, i) in heroStats" :key="i">
             <div class="stat-n">
               <span class="count-up" :data-target="s.val">0</span>
             </div>
@@ -228,7 +254,7 @@
           <p class="sec-p reveal">{{ t.why.sub }}</p>
         </div>
         <div class="feat-grid">
-          <div v-for="(f,i) in t.why.list" :key="i" class="fcard reveal" :style="{ '--di': i }">
+          <div v-for="(f, i) in t.why.list" :key="i" class="fcard reveal" :style="{ '--di': i }">
             <div class="fcard-glow"></div>
             <div class="fcard-border"></div>
             <div class="fcard-sparkle"></div>
@@ -274,7 +300,8 @@
               {{ t.sub.txtLbl }} <span class="ast">*</span>
             </label>
             <div class="textarea-wrap">
-              <textarea class="ta" v-model="nw.txt" :placeholder="t.sub.ph" rows="5" @input="updateCharCount" maxlength="500"></textarea>
+              <textarea class="ta" v-model="nw.txt" :placeholder="t.sub.ph" rows="5" @input="updateCharCount"
+                maxlength="500"></textarea>
               <span class="char-count">{{ nw.txt.length }} / 500</span>
             </div>
             <transition name="err-slide">
@@ -292,7 +319,9 @@
                 <option value="">{{ t.sub.selReg }}</option>
                 <option v-for="r in regs" :key="r" :value="r">{{ r }}</option>
               </select>
-              <svg class="sel-arr" viewBox="0 0 24 24" width="18" height="18"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+              <svg class="sel-arr" viewBox="0 0 24 24" width="18" height="18">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" />
+              </svg>
             </div>
             <transition name="err-slide">
               <span class="ferr" v-if="err.reg">⚠️ {{ err.reg }}</span>
@@ -303,11 +332,17 @@
             <span class="btn-shine"></span>
             <transition name="fade" mode="out-in">
               <span v-if="!sending" key="submit">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
                 {{ t.sub.btn }}
               </span>
               <span v-else key="loading" class="ldtxt">
-                <svg class="spinner" viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="31.4 31.4" stroke-linecap="round"/></svg>
+                <svg class="spinner" viewBox="0 0 24 24" width="18" height="18">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none"
+                    stroke-dasharray="31.4 31.4" stroke-linecap="round" />
+                </svg>
                 {{ t.sub.ld }}
               </span>
             </transition>
@@ -328,40 +363,50 @@
 
         <div class="filter-controls reveal">
           <div class="pills">
-            <button class="pill" :class="{ on: actFilt === 'all' }" @click="actFilt='all'">
+            <button class="pill" :class="{ on: actFilt === 'all' }" @click="actFilt = 'all'">
               <span class="pill-count">{{ reqs.length }}</span>
               {{ t.req.all }}
             </button>
             <button v-for="c in cats" :key="c" class="pill" :class="{ on: actFilt === c }" @click="actFilt = c">
-              <span class="pill-count">{{ reqs.filter(r => r.category === c).length }}</span>
+              <span class="pill-count">{{reqs.filter(r => r.category === c).length}}</span>
               {{ c }}
             </button>
           </div>
 
           <div class="sort-options">
             <button class="sort-btn" :class="{ active: sortBy === 'likes' }" @click="sortBy = 'likes'">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" stroke="currentColor" stroke-width="2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                  stroke="currentColor" stroke-width="2" />
+              </svg>
               Eng ko'p ovoz
             </button>
             <button class="sort-btn" :class="{ active: sortBy === 'date' }" @click="sortBy = 'date'">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" />
+              </svg>
               Eng yangi
             </button>
           </div>
         </div>
 
         <div class="sortlabel reveal">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M7 16V4M7 16l-3-3M7 16l3-3M17 8v12M17 8l3 3M17 8l-3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M7 16V4M7 16l-3-3M7 16l3-3M17 8v12M17 8l3 3M17 8l-3 3" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" />
+          </svg>
           {{ sortBy === 'likes' ? "Eng ko'p ovoz olgan oldinda" : "Eng yangi oldinda" }}
           <span class="live-indicator">
             <span class="live-dot"></span>
             LIVE
           </span>
         </div>
-                       
+
         <div class="search-bar reveal">
           <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" />
           </svg>
           <input type="text" v-model="searchQuery" placeholder="Takliflarni qidirish..." class="search-input">
           <button v-if="searchQuery" class="search-clear" @click="searchQuery = ''">✕</button>
@@ -372,32 +417,31 @@
             <div class="rcard-shine"></div>
             <div class="rcard-glow"></div>
             <div class="rcard-new" v-if="isNew(r)">🆕</div>
-            
+
             <div class="rcard-trending" v-if="isTrending(r)">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                  stroke-linejoin="round" />
               </svg>
               Trending
             </div>
-            
+
             <div class="rcard-top">
               <span class="rbadge">{{ r.category }}</span>
               <span class="rloc">📍 {{ r.region }}</span>
             </div>
-            
+
             <p class="rtxt">{{ r.text }}</p>
-            
+
             <div class="rbot">
               <span class="rdate">{{ fmtDate(r.date) }}</span>
               <button class="lbk" :class="{ on: liked(r), pulse: justLiked === r.id }" @click.stop="like(r)">
                 <span class="lheart">
                   <svg width="17" height="17" viewBox="0 0 24 24">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" 
-                    :fill="liked(r)?'currentColor':'none'" 
-                    stroke="currentColor" 
-                    stroke-width="2" 
-                    stroke-linecap="round" 
-                    stroke-linejoin="round"/>
+                    <path
+                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                      :fill="liked(r) ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
                 </span>
                 <span class="lcnt">{{ r.likes }}</span>
@@ -416,7 +460,7 @@
         <div class="load-more-section" v-if="hasMoreRequests">
           <button class="btn btn-out load-more-btn" @click="loadMore">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
             </svg>
             Yana yuklash
           </button>
@@ -429,8 +473,9 @@
         <div class="ft-brand">
           <div class="logo" style="margin-bottom:1rem" @click="goto('hero')">
             <svg class="logo-svg" viewBox="0 0 32 32" fill="none">
-              <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" stroke="url(#lg1)" stroke-width="2" fill="none" opacity="0.8"/>
-              <circle cx="16" cy="16" r="3" fill="url(#lg1)"/>
+              <polygon points="16,2 30,10 30,22 16,30 2,22 2,10" stroke="url(#lg1)" stroke-width="2" fill="none"
+                opacity="0.8" />
+              <circle cx="16" cy="16" r="3" fill="url(#lg1)" />
             </svg>
             <span class="logo-txt">{{ t.brand }}</span>
           </div>
@@ -457,15 +502,16 @@
         <div class="toast-ic">
           <transition name="icon-swap" mode="out-in">
             <svg v-if="!toastErr" key="success" width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <svg v-else key="error" width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M18 6L6 18M6 6l12 12" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+              <path d="M18 6L6 18M6 6l12 12" stroke="#fff" stroke-width="3" stroke-linecap="round" />
             </svg>
           </transition>
         </div>
         <div class="toast-body">
-          <span class="toast-title">{{ toastErr ? (cur==='uz'?'Xatolik':cur==='ru'?'Ошибка':'Error') : (cur==='uz'?'Muvaffaqiyat':cur==='ru'?'Успех':'Success') }}</span>
+          <span class="toast-title">{{ toastErr ? (cur === 'uz' ? 'Xatolik' : cur === 'ru' ? 'Ошибка' : 'Error') :
+            (cur === 'uz' ? 'Muvaffaqiyat' : cur === 'ru' ? 'Успех' :'Success') }}</span>
           <span class="toast-txt">{{ toastMsg }}</span>
         </div>
         <button class="toast-close" @click="toastOn = false">✕</button>
@@ -475,7 +521,7 @@
     <transition name="scale-fade">
       <button class="sctop" v-if="scrolled" @click="goto('hero')">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-          <path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
         </svg>
       </button>
     </transition>
@@ -483,9 +529,35 @@
   </div>
 </template>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <script>
+import HeroSection from './components/HeroSection.vue'
 export default {
   name: 'App',
+   components: {
+    HeroSection
+  },
   data() {
     return {
       theme: 'dark',
@@ -507,7 +579,7 @@ export default {
       particles: [],
       justLiked: null,
       newRequestIds: [],
-      
+
       isAdmin: false,
       showAdminPanel: false,
       showEmailLogin: false,
@@ -516,7 +588,7 @@ export default {
       adminEmail: '123sanjarbe@gmail.com',
       adminPassword: '123Sanjar3211',
       adminSearch: '',
-      sortBy: 'likes', 
+      sortBy: 'likes',
       searchQuery: '',
       displayLimit: 12,
 
@@ -529,60 +601,66 @@ export default {
         { code: 'ru', name: 'Русский', flag: '🇷🇺' },
         { code: 'en', name: 'English', flag: '🇬🇧' }
       ],
-      cats: ["Ta'lim","Sog'liqni Saqlash","Yo'llar","Ekologiya","Sport","Madaniyat","Iqtisodiyot","Boshqa"],
-      regs: ['Toshkent sh.','Toshkent vil.','Andijon vil.','Buxoro vil.',"Farg'ona vil.",'Jizzax vil.','Xorazm vil.','Namangan vil.','Navoiy vil.','Qashqadaryo vil.','Qoraqalpog\'iston Res.','Samarqand vil.','Sirdaryo vil.','Surxondaryo vil.'],
+      cats: ["Ta'lim", "Sog'liqni Saqlash", "Yo'llar", "Ekologiya", "Sport", "Madaniyat", "Iqtisodiyot", "Boshqa"],
+      regs: ['Toshkent sh.', 'Toshkent vil.', 'Andijon vil.', 'Buxoro vil.', "Farg'ona vil.", 'Jizzax vil.', 'Xorazm vil.', 'Namangan vil.', 'Navoiy vil.', 'Qashqadaryo vil.', 'Qoraqalpog\'iston Res.', 'Samarqand vil.', 'Sirdaryo vil.', 'Surxondaryo vil.'],
 
       i18n: {
         uz: {
-          brand:'Xalq Ovozi',
-          hero:{ badge:'Yangi platforma', line1:'Ovozingiz', line2:'Muhim!', desc:"Jamiyat uchun muhim bo'lgan takliflaringizni yuboring. Eng ko'p ovoz to'plagan takliflar amalga oshiriladi.", cta:'Talab Yuborish', viewAll:"Talablarni Ko'rish" },
-          why:{ tag:'Nega biz', title:"Xalq Ovozi — Haqiqiy O'zgartirish", sub:"Biz xalq fikrini eshitamiz va eng muhim takliflarni amalga oshiramiz", list:[
-            { ic:'🗳️', title:'Demokratik Ovoz', desc:"Har bir fuqaro o'z fikrini bildirib, jamiyat rivojga hissa qo'shadi." },
-            { ic:'👁️', title:'Shaffoflik', desc:"Barcha takliflar ochiq. Ko'p ovoz to'plagan takliflar birinchi amalga oshiriladi." },
-            { ic:'⚡', title:'Tezkor Javob', desc:"Eng dolzarb muammolarni tez va samarali hal qilish uchun darhol ko'rib chiqamiz." },
-            { ic:'📍', title:"Viloyatlar Bo'yicha", desc:"Har viloyatning o'ziga xos muammolarini alohida e'tiborga olamiz." },
-            { ic:'🤝', title:'Hamjamiyat', desc:"Birgalikda biz kuchliymiz. Jamoa bo'lib yurtimizni go'zallashtramiz." },
-            { ic:'🌱', title:'Barqaror Rivojlanish', desc:'Uzoq muddatli va barqaror yechimlarni topishga intilamiz.' }
-          ]},
-          sub:{ tag:'Taklad', title:'Taklifingiz Yuboring', sub:"O'z fikr-mulohazalaringizni bildiring", catLbl:'Kategoriya', txtLbl:'Taklifingiz', ph:'Taklifingizni batafsil yozing...', regLbl:'Viloyat', selReg:'Viloyatni tanlang', btn:'Yuborish', ld:'Yuklanmoqda', discl:"Sizning talabingiz ko'rib chiqiladi va eng ko'p ovoz to'plagan takliflar amalga oshiriladi." },
-          req:{ tag:'Talablar', title:'Barcha Talablar', sub:"Ovoz bering va eng muhim takliflarni qo'llab-quvvatlang", all:'Hammasi', sorted:"Eng ko'p ovoz bolan oldinda", empty:"Hozircha talablar yo'q" },
-          ft:{ desc:"Xalq uchun, xalq tomonidan — birgalikda yaxshiroq kelajak quramiz.", links:'Tezkor Havolalar', rights:'Barcha huquqlar himoyalangan.' },
-          toast:{ ok:'Taklifingiz muvaffaqiyatli yuborildi!', bad:"Xatolik yuz berdi. Qaytadan urinib ko'ring." },
-          v:{ cat:'Kategoriyani tanlang', txt:'Taklifingizni yozing', txtM:'Kamida 10 belgi yozing', reg:'Viloyatni tanlang' }
+          brand: 'Xalq Ovozi',
+          hero: { badge: 'Yangi platforma', line1: 'Ovozingiz', line2: 'Muhim!', desc: "Jamiyat uchun muhim bo'lgan takliflaringizni yuboring. Eng ko'p ovoz to'plagan takliflar amalga oshiriladi.", cta: 'Talab Yuborish', viewAll: "Talablarni Ko'rish" },
+          why: {
+            tag: 'Nega biz', title: "Xalq Ovozi — Haqiqiy O'zgartirish", sub: "Biz xalq fikrini eshitamiz va eng muhim takliflarni amalga oshiramiz", list: [
+              { ic: '🗳️', title: 'Demokratik Ovoz', desc: "Har bir fuqaro o'z fikrini bildirib, jamiyat rivojga hissa qo'shadi." },
+              { ic: '👁️', title: 'Shaffoflik', desc: "Barcha takliflar ochiq. Ko'p ovoz to'plagan takliflar birinchi amalga oshiriladi." },
+              { ic: '⚡', title: 'Tezkor Javob', desc: "Eng dolzarb muammolarni tez va samarali hal qilish uchun darhol ko'rib chiqamiz." },
+              { ic: '📍', title: "Viloyatlar Bo'yicha", desc: "Har viloyatning o'ziga xos muammolarini alohida e'tiborga olamiz." },
+              { ic: '🤝', title: 'Hamjamiyat', desc: "Birgalikda biz kuchliymiz. Jamoa bo'lib yurtimizni go'zallashtramiz." },
+              { ic: '🌱', title: 'Barqaror Rivojlanish', desc: 'Uzoq muddatli va barqaror yechimlarni topishga intilamiz.' }
+            ]
+          },
+          sub: { tag: 'Taklad', title: 'Taklifingiz Yuboring', sub: "O'z fikr-mulohazalaringizni bildiring", catLbl: 'Kategoriya', txtLbl: 'Taklifingiz', ph: 'Taklifingizni batafsil yozing...', regLbl: 'Viloyat', selReg: 'Viloyatni tanlang', btn: 'Yuborish', ld: 'Yuklanmoqda', discl: "Sizning talabingiz ko'rib chiqiladi va eng ko'p ovoz to'plagan takliflar amalga oshiriladi." },
+          req: { tag: 'Talablar', title: 'Barcha Talablar', sub: "Ovoz bering va eng muhim takliflarni qo'llab-quvvatlang", all: 'Hammasi', sorted: "Eng ko'p ovoz bolan oldinda", empty: "Hozircha talablar yo'q" },
+          ft: { desc: "Xalq uchun, xalq tomonidan — birgalikda yaxshiroq kelajak quramiz.", links: 'Tezkor Havolalar', rights: 'Barcha huquqlar himoyalangan.' },
+          toast: { ok: 'Taklifingiz muvaffaqiyatli yuborildi!', bad: "Xatolik yuz berdi. Qaytadan urinib ko'ring." },
+          v: { cat: 'Kategoriyani tanlang', txt: 'Taklifingizni yozing', txtM: 'Kamida 10 belgi yozing', reg: 'Viloyatni tanlang' }
         },
         ru: {
-          brand:'Голос Народа',
-          hero:{ badge:'Новая платформа', line1:'Ваш голос', line2:'Важен!', desc:'Отправьте предложения, важные для общества. Предложения с наибольшим числом голосов будут реализованы.', cta:'Отправить Запрос', viewAll:'Смотреть Запросы' },
-          why:{ tag:'Почему мы', title:'Голос Народа — Реальные Перемены', sub:'Мы слушаем мнение людей и реализуем самые важные предложения', list:[
-            { ic:'🗳️', title:'Демократический Голос', desc:'Каждый гражданин может высказать свое мнение и внести вклад.' },
-            { ic:'👁️', title:'Прозрачность', desc:'Все предложения открыты. С наибольшим числом голосов реализуются первыми.' },
-            { ic:'⚡', title:'Быстрый Ответ', desc:'Немедленно рассматриваем для быстрого решения актуальных проблем.' },
-            { ic:'📍', title:'По Регионам', desc:'Особое внимание специфическим проблемам каждого региона.' },
-            { ic:'🤝', title:'Сообщество', desc:'Вместе мы сильнее. Командой делаем страну прекраснее.' },
-            { ic:'🌱', title:'Устойчивое Развитие', desc:'Долгосрочные и устойчивые решения, а не временные.' }
-          ]},
-          sub:{ tag:'Запрос', title:'Отправьте Предложение', sub:'Выскажите свое мнение', catLbl:'Категория', txtLbl:'Ваше предложение', ph:'Опишите предложение подробно...', regLbl:'Область', selReg:'Выберите область', btn:'Отправить', ld:'Загрузка', discl:'Ваш запрос будет рассмотрен и предложения с наибольшим числом голосов реализованы.' },
-          req:{ tag:'Запросы', title:'Все Запросы', sub:'Голосуйте и поддерживайте важные предложения', all:'Все', sorted:'Сортировка по голосам', empty:'Пока нет запросов' },
-          ft:{ desc:'Для народа, от народа — вместе строим лучшее будущее.', links:'Быстрые Ссылки', rights:'Все права защищены.' },
-          toast:{ ok:'Успешно отправлено!', bad:'Произошла ошибка. Попробуйте снова.' },
-          v:{ cat:'Выберите категорию', txt:'Напишите предложение', txtM:'Минимум 10 символов', reg:'Выберите область' }
+          brand: 'Голос Народа',
+          hero: { badge: 'Новая платформа', line1: 'Ваш голос', line2: 'Важен!', desc: 'Отправьте предложения, важные для общества. Предложения с наибольшим числом голосов будут реализованы.', cta: 'Отправить Запрос', viewAll: 'Смотреть Запросы' },
+          why: {
+            tag: 'Почему мы', title: 'Голос Народа — Реальные Перемены', sub: 'Мы слушаем мнение людей и реализуем самые важные предложения', list: [
+              { ic: '🗳️', title: 'Демократический Голос', desc: 'Каждый гражданин может высказать свое мнение и внести вклад.' },
+              { ic: '👁️', title: 'Прозрачность', desc: 'Все предложения открыты. С наибольшим числом голосов реализуются первыми.' },
+              { ic: '⚡', title: 'Быстрый Ответ', desc: 'Немедленно рассматриваем для быстрого решения актуальных проблем.' },
+              { ic: '📍', title: 'По Регионам', desc: 'Особое внимание специфическим проблемам каждого региона.' },
+              { ic: '🤝', title: 'Сообщество', desc: 'Вместе мы сильнее. Командой делаем страну прекраснее.' },
+              { ic: '🌱', title: 'Устойчивое Развитие', desc: 'Долгосрочные и устойчивые решения, а не временные.' }
+            ]
+          },
+          sub: { tag: 'Запрос', title: 'Отправьте Предложение', sub: 'Выскажите свое мнение', catLbl: 'Категория', txtLbl: 'Ваше предложение', ph: 'Опишите предложение подробно...', regLbl: 'Область', selReg: 'Выберите область', btn: 'Отправить', ld: 'Загрузка', discl: 'Ваш запрос будет рассмотрен и предложения с наибольшим числом голосов реализованы.' },
+          req: { tag: 'Запросы', title: 'Все Запросы', sub: 'Голосуйте и поддерживайте важные предложения', all: 'Все', sorted: 'Сортировка по голосам', empty: 'Пока нет запросов' },
+          ft: { desc: 'Для народа, от народа — вместе строим лучшее будущее.', links: 'Быстрые Ссылки', rights: 'Все права защищены.' },
+          toast: { ok: 'Успешно отправлено!', bad: 'Произошла ошибка. Попробуйте снова.' },
+          v: { cat: 'Выберите категорию', txt: 'Напишите предложение', txtM: 'Минимум 10 символов', reg: 'Выберите область' }
         },
         en: {
-          brand:"People's Voice",
-          hero:{ badge:'New Platform', line1:'Your Voice', line2:'Matters!', desc:'Submit proposals important for society. Proposals with the most votes will be implemented.', cta:'Submit Request', viewAll:'View Requests' },
-          why:{ tag:'Why Us', title:"People's Voice — Real Change", sub:'We listen to the people and implement the most important proposals', list:[
-            { ic:'🗳️', title:'Democratic Voice', desc:'Every citizen can express opinion and contribute to society.' },
-            { ic:'👁️', title:'Transparency', desc:'All proposals open. Most voted implemented first.' },
-            { ic:'⚡', title:'Quick Response', desc:'We immediately review demands to solve pressing problems fast.' },
-            { ic:'📍', title:'By Regions', desc:'Special attention to specific problems of each region.' },
-            { ic:'🤝', title:'Community', desc:'Together we are stronger. As a team we make our country better.' },
-            { ic:'🌱', title:'Sustainable Dev', desc:'Long-term and sustainable solutions, not temporary fixes.' }
-          ]},
-          sub:{ tag:'Submit', title:'Submit Your Proposal', sub:'Share your thoughts', catLbl:'Category', txtLbl:'Your Proposal', ph:'Describe your proposal in detail...', regLbl:'Region', selReg:'Select region', btn:'Submit', ld:'Loading', discl:'Your request will be reviewed. Proposals with most votes will be implemented.' },
-          req:{ tag:'Requests', title:'All Requests', sub:'Vote and support the most important proposals', all:'All', sorted:'Sorted by most votes', empty:'No requests yet' },
-          ft:{ desc:'For the people, by the people — building a better future together.', links:'Quick Links', rights:'All rights reserved.' },
-          toast:{ ok:'Successfully submitted!', bad:'An error occurred. Try again.' },
-          v:{ cat:'Select a category', txt:'Write your proposal', txtM:'At least 10 characters', reg:'Select a region' }
+          brand: "People's Voice",
+          hero: { badge: 'New Platform', line1: 'Your Voice', line2: 'Matters!', desc: 'Submit proposals important for society. Proposals with the most votes will be implemented.', cta: 'Submit Request', viewAll: 'View Requests' },
+          why: {
+            tag: 'Why Us', title: "People's Voice — Real Change", sub: 'We listen to the people and implement the most important proposals', list: [
+              { ic: '🗳️', title: 'Democratic Voice', desc: 'Every citizen can express opinion and contribute to society.' },
+              { ic: '👁️', title: 'Transparency', desc: 'All proposals open. Most voted implemented first.' },
+              { ic: '⚡', title: 'Quick Response', desc: 'We immediately review demands to solve pressing problems fast.' },
+              { ic: '📍', title: 'By Regions', desc: 'Special attention to specific problems of each region.' },
+              { ic: '🤝', title: 'Community', desc: 'Together we are stronger. As a team we make our country better.' },
+              { ic: '🌱', title: 'Sustainable Dev', desc: 'Long-term and sustainable solutions, not temporary fixes.' }
+            ]
+          },
+          sub: { tag: 'Submit', title: 'Submit Your Proposal', sub: 'Share your thoughts', catLbl: 'Category', txtLbl: 'Your Proposal', ph: 'Describe your proposal in detail...', regLbl: 'Region', selReg: 'Select region', btn: 'Submit', ld: 'Loading', discl: 'Your request will be reviewed. Proposals with most votes will be implemented.' },
+          req: { tag: 'Requests', title: 'All Requests', sub: 'Vote and support the most important proposals', all: 'All', sorted: 'Sorted by most votes', empty: 'No requests yet' },
+          ft: { desc: 'For the people, by the people — building a better future together.', links: 'Quick Links', rights: 'All rights reserved.' },
+          toast: { ok: 'Successfully submitted!', bad: 'An error occurred. Try again.' },
+          v: { cat: 'Select a category', txt: 'Write your proposal', txtM: 'At least 10 characters', reg: 'Select a region' }
         }
       }
     }
@@ -591,11 +669,11 @@ export default {
   computed: {
     t() { return this.i18n[this.cur] },
     navItems() {
-      const h = { uz:['Bosh sahifa','Nega biz','Talab yuborish','Talablar'], ru:['Главная','Почему мы','Запрос','Запросы'], en:['Home','Why Us','Submit','Requests'] }
-      return ['hero','about','submit','requests'].map((id,i) => ({ id, label: h[this.cur][i] }))
+      const h = { uz: ['Bosh sahifa', 'Nega biz', 'Talab yuborish', 'Talablar'], ru: ['Главная', 'Почему мы', 'Запрос', 'Запросы'], en: ['Home', 'Why Us', 'Submit', 'Requests'] }
+      return ['hero', 'about', 'submit', 'requests'].map((id, i) => ({ id, label: h[this.cur][i] }))
     },
     heroStats() {
-      const l = { uz:['Talablar','Ovozlar','Kategoriyalar'], ru:['Запросов','Голосов','Категории'], en:['Requests','Votes','Categories'] }
+      const l = { uz: ['Talablar', 'Ovozlar', 'Kategoriyalar'], ru: ['Запросов', 'Голосов', 'Категории'], en: ['Requests', 'Votes', 'Categories'] }
       return [
         { val: this.reqs.length, lbl: l[this.cur][0] },
         { val: this.totalLikes, lbl: l[this.cur][1] },
@@ -604,26 +682,26 @@ export default {
     },
     sorted() {
       let list = [...this.reqs]
-      
+
       if (this.actFilt !== 'all') {
         list = list.filter(r => r.category === this.actFilt)
       }
-      
+
       if (this.searchQuery.trim()) {
         const q = this.searchQuery.toLowerCase()
-        list = list.filter(r => 
+        list = list.filter(r =>
           r.text.toLowerCase().includes(q) ||
           r.category.toLowerCase().includes(q) ||
           r.region.toLowerCase().includes(q)
         )
       }
-      
+
       if (this.sortBy === 'likes') {
         list.sort((a, b) => (b.likes || 0) - (a.likes || 0))
       } else {
         list.sort((a, b) => new Date(b.date) - new Date(a.date))
       }
-      
+
       return list.slice(0, this.displayLimit)
     },
     totalLikes() {
@@ -649,7 +727,7 @@ export default {
       }
       if (this.searchQuery.trim()) {
         const q = this.searchQuery.toLowerCase()
-        total = this.reqs.filter(r => 
+        total = this.reqs.filter(r =>
           r.text.toLowerCase().includes(q) ||
           r.category.toLowerCase().includes(q) ||
           r.region.toLowerCase().includes(q)
@@ -663,14 +741,14 @@ export default {
     theme(v) { localStorage.setItem('xv_theme', v) },
     cur(v) { localStorage.setItem('xv_lang', v) },
     isAdmin(v) { localStorage.setItem('xv_admin', v) },
-    reqs: { 
-      deep: true, 
-      handler(v) { 
+    reqs: {
+      deep: true,
+      handler(v) {
         this.saveToLocalStorage()
         this.$nextTick(() => {
           this.updateStats()
         })
-      } 
+      }
     }
   },
 
@@ -679,14 +757,14 @@ export default {
     this.cur = localStorage.getItem('xv_lang') || 'uz'
     this.uid = localStorage.getItem('xv_uid') || this.mkUid()
     this.isAdmin = localStorage.getItem('xv_admin') === 'true'
-    
+
     this.loadFromLocalStorage()
     this.startRealTimePolling()
-    
+
     window.addEventListener('scroll', this.onScroll)
     document.addEventListener('click', this.handleClickOutside)
-    
-    this.$nextTick(() => { 
+
+    this.$nextTick(() => {
       this.initCanvas()
       this.observe()
       this.animateCounters()
@@ -701,20 +779,20 @@ export default {
   },
 
   methods: {
-    mkUid() { 
-      const id='u_'+Date.now().toString(36)+Math.random().toString(36).slice(2,8)
-      localStorage.setItem('xv_uid',id)
-      return id 
+    mkUid() {
+      const id = 'u_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8)
+      localStorage.setItem('xv_uid', id)
+      return id
     },
 
     startRealTimePolling() {
-      this.pollingInterval =setInterval(() => this.fetchNewRequests(), 15000)
+      this.pollingInterval = setInterval(() => this.fetchNewRequests(), 15000)
     },
 
     async fetchNewRequests() {
       try {
         const scriptURL = 'https://script.google.com/macros/s/AKfycbw942zwfIeumx4oYQ6DwWXj8VcM_5yBervTdn_C-mTzzKE8Ughlie-cLYXBUZMd0d7p/exec'
-        
+
         const response = await fetch(`${scriptURL}?action=getAll&timestamp=${Date.now()}`, {
           method: 'GET',
           headers: {
@@ -724,7 +802,7 @@ export default {
 
         if (response.ok) {
           const data = await response.json()
-          
+
           if (data && data.requests && Array.isArray(data.requests)) {
             this.mergeNewRequests(data.requests)
           }
@@ -740,7 +818,7 @@ export default {
 
       serverRequests.forEach(serverReq => {
         const existingReq = this.reqs.find(r => r.id === serverReq.id)
-        
+
         if (!existingReq) {
 
           newRequests.push({
@@ -778,29 +856,29 @@ export default {
         const stored = localStorage.getItem('xv_reqs')
         if (stored) {
           this.reqs = JSON.parse(stored)
-          
+
           this.reqs.forEach(req => {
             if (!req.likedBy) {
               req.likedBy = this.loadLikedByForRequest(req.id)
             }
           })
         }
-      } catch(e) { 
+      } catch (e) {
         console.error('Load error:', e)
-        this.reqs = [] 
+        this.reqs = []
       }
     },
 
     saveToLocalStorage() {
       try {
         localStorage.setItem('xv_reqs', JSON.stringify(this.reqs))
-        
+
         this.reqs.forEach(req => {
           if (req.likedBy && req.likedBy.length > 0) {
             this.saveLikedByForRequest(req.id, req.likedBy)
           }
         })
-      } catch(e) {
+      } catch (e) {
         console.error('Save error:', e)
       }
     },
@@ -811,10 +889,10 @@ export default {
       this.scrollPct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100
     },
 
-    goto(id) { 
+    goto(id) {
       const el = document.getElementById(id)
-      if(el) {
-        el.scrollIntoView({ behavior:'smooth' })
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
         this.mOpen = false
       }
     },
@@ -849,8 +927,8 @@ export default {
     },
 
     checkAdminLogin() {
-      if (this.loginEmail.toLowerCase().trim() === this.adminEmail.toLowerCase() && 
-          this.loginPassword.trim() === this.adminPassword) {
+      if (this.loginEmail.toLowerCase().trim() === this.adminEmail.toLowerCase() &&
+        this.loginPassword.trim() === this.adminPassword) {
         this.isAdmin = true
         localStorage.setItem('xv_admin', 'true')
         this.showEmailLogin = false
@@ -873,7 +951,7 @@ export default {
       if (confirm('Bu taklifni o\'chirmoqchimisiz?')) {
         try {
           const scriptURL = 'https://script.google.com/macros/s/AKfycbw942zwfIeumx4oYQ6DwWXj8VcM_5yBervTdn_C-mTzzKE8Ughlie-cLYXBUZMd0d7p/exec'
-          
+
           const formData = new URLSearchParams()
           formData.append('action', 'delete')
           formData.append('id', id)
@@ -887,7 +965,7 @@ export default {
 
           this.reqs = this.reqs.filter(r => r.id !== id)
           this.showToast('Taklif o\'chirildi!', false)
-        } catch(e) {
+        } catch (e) {
           console.error('Delete error:', e)
           this.showToast('O\'chirishda xatolik!', true)
         }
@@ -907,10 +985,10 @@ export default {
 
     initCanvas() {
       const c = this.$refs.canvas
-      if(!c) return
+      if (!c) return
       c.width = window.innerWidth
       c.height = window.innerHeight
-      
+
       this.particles = Array.from({ length: 60 }, () => ({
         x: Math.random() * c.width,
         y: Math.random() * c.height,
@@ -919,42 +997,42 @@ export default {
         r: Math.random() * 1.5 + 0.5,
         a: Math.random() * 0.5 + 0.2
       }))
-      
+
       this.drawLoop()
     },
 
     drawLoop() {
       const c = this.$refs.canvas
-      if(!c) return
-      
+      if (!c) return
+
       const ctx = c.getContext('2d')
       ctx.clearRect(0, 0, c.width, c.height)
-      
+
       const dk = this.theme === 'dark'
       const col = dk ? '170,190,255' : '70,70,150'
 
       this.particles.forEach(p => {
         p.x += p.vx
         p.y += p.vy
-        
-        if(p.x < 0) p.x = c.width
-        if(p.x > c.width) p.x = 0
-        if(p.y < 0) p.y = c.height
-        if(p.y > c.height) p.y = 0
-        
+
+        if (p.x < 0) p.x = c.width
+        if (p.x > c.width) p.x = 0
+        if (p.y < 0) p.y = c.height
+        if (p.y > c.height) p.y = 0
+
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
         ctx.fillStyle = `rgba(${col},${p.a})`
         ctx.fill()
       })
 
-      for(let i = 0; i < this.particles.length; i++) {
-        for(let j = i + 1; j < this.particles.length; j++) {
+      for (let i = 0; i < this.particles.length; i++) {
+        for (let j = i + 1; j < this.particles.length; j++) {
           const dx = this.particles[i].x - this.particles[j].x
           const dy = this.particles[i].y - this.particles[j].y
           const d = Math.sqrt(dx * dx + dy * dy)
-          
-          if(d < 100) {
+
+          if (d < 100) {
             ctx.beginPath()
             ctx.moveTo(this.particles[i].x, this.particles[i].y)
             ctx.lineTo(this.particles[j].x, this.particles[j].y)
@@ -964,20 +1042,20 @@ export default {
           }
         }
       }
-      
+
       this.animId = requestAnimationFrame(this.drawLoop)
     },
 
     observe() {
       const io = new IntersectionObserver(entries => {
         entries.forEach(e => {
-          if(e.isIntersecting) {
+          if (e.isIntersecting) {
             const d = parseInt(e.target.style.getPropertyValue('--di') || '0')
             setTimeout(() => e.target.classList.add('vis'), d * 80)
           }
         })
       }, { threshold: 0.1 })
-      
+
       document.querySelectorAll('.reveal').forEach(el => io.observe(el))
     },
 
@@ -989,7 +1067,7 @@ export default {
           const increment = target / 50
           const timer = setInterval(() => {
             current += increment
-            if(current >= target) {
+            if (current >= target) {
               el.textContent = target
               clearInterval(timer)
             } else {
@@ -1010,7 +1088,7 @@ export default {
     },
 
     updateCharCount() {
-      if(this.err.txt && this.nw.txt.trim().length >= 10) {
+      if (this.err.txt && this.nw.txt.trim().length >= 10) {
         this.err.txt = ''
       }
     },
@@ -1018,32 +1096,32 @@ export default {
     validate() {
       this.err = { cat: '', txt: '', reg: '' }
       let ok = true
-      
-      if(!this.nw.cat) { 
+
+      if (!this.nw.cat) {
         this.err.cat = this.t.v.cat
-        ok = false 
+        ok = false
       }
-      if(!this.nw.txt.trim()) { 
+      if (!this.nw.txt.trim()) {
         this.err.txt = this.t.v.txt
-        ok = false 
-      } else if(this.nw.txt.trim().length < 10) { 
+        ok = false
+      } else if (this.nw.txt.trim().length < 10) {
         this.err.txt = this.t.v.txtM
-        ok = false 
+        ok = false
       }
-      if(!this.nw.reg) { 
+      if (!this.nw.reg) {
         this.err.reg = this.t.v.reg
-        ok = false 
+        ok = false
       }
-      
+
       return ok
     },
 
     async sendTelegramNotification(text, category, region) {
       const botToken = '7743930999:AAHpsCFzDCeqyrmsFqFd8eyP18ks6SPgWV4'
       const chatId = '8585002118'
-      
+
       const message = `🆕 Yangi taklif!\n\n📂 Kategoriya: ${category}\n📍 Viloyat: ${region}\n✍️ Taklif: ${text}\n\n⏰ Vaqt: ${new Date().toLocaleString('uz-UZ')}`
-      
+
       try {
         await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
           method: 'POST',
@@ -1054,16 +1132,16 @@ export default {
             parse_mode: 'HTML'
           })
         })
-      } catch(e) {
+      } catch (e) {
         console.error('Telegram xabar yuborishda xatolik:', e)
       }
     },
 
     async send() {
-      if(!this.validate()) return;
-      
+      if (!this.validate()) return;
+
       this.sending = true;
-      
+
       const scriptURL = 'https://script.google.com/macros/s/AKfycbw942zwfIeumx4oYQ6DwWXj8VcM_5yBervTdn_C-mTzzKE8Ughlie-cLYXBUZMd0d7p/exec';
 
       const newReqId = Date.now()
@@ -1092,52 +1170,52 @@ export default {
           likes: 0,
           likedBy: []
         };
-        
+
         this.reqs = [newReq, ...this.reqs];
 
         await this.sendTelegramNotification(this.nw.txt, this.nw.cat, this.nw.reg);
 
         this.nw = { cat: '', txt: '', reg: '' };
         this.showToast(this.t.toast.ok, false);
-        
+
         setTimeout(() => this.goto('requests'), 800);
 
-      } catch(e) { 
+      } catch (e) {
         console.error('Xatolik:', e);
-        this.showToast(this.t.toast.bad, true); 
+        this.showToast(this.t.toast.bad, true);
       } finally {
         this.sending = false;
       }
     },
 
-    liked(r) { 
-      return (r.likedBy || []).includes(this.uid) 
+    liked(r) {
+      return (r.likedBy || []).includes(this.uid)
     },
 
     async like(r) {
-      if(!r.likedBy) r.likedBy = []
-      if(!r.likes) r.likes = 0
-      
+      if (!r.likedBy) r.likedBy = []
+      if (!r.likes) r.likes = 0
+
       const wasLiked = r.likedBy.includes(this.uid)
       const i = r.likedBy.indexOf(this.uid)
-      
-      if(i > -1) {
+
+      if (i > -1) {
         r.likedBy.splice(i, 1)
         r.likes--
       } else {
         r.likedBy.push(this.uid)
         r.likes++
-        
+
         this.justLiked = r.id
         setTimeout(() => { this.justLiked = null }, 600)
       }
-      
+
       this.reqs = [...this.reqs]
       this.saveToLocalStorage()
 
       try {
         const scriptURL = 'https://script.google.com/macros/s/AKfycby1OC95PuU3r2oUhs2eSpgm0c2SbsSOuFiM5gTMYCeaqEqzaF5UN6f_gxavcKlrPXoG/exec'
-        
+
         const formData = new URLSearchParams()
         formData.append('action', 'updateLikes')
         formData.append('id', r.id)
@@ -1149,7 +1227,7 @@ export default {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: formData.toString()
         })
-      } catch(e) {
+      } catch (e) {
         console.error('Like update error:', e)
       }
     },
@@ -1163,7 +1241,7 @@ export default {
       this.toastMsg = msg
       this.toastErr = isErr
       this.toastOn = true
-      
+
       setTimeout(() => {
         this.toastOn = false
       }, 4000)
@@ -1172,456 +1250,268 @@ export default {
     fmtDate(ds) {
       const d = new Date(ds)
       const diff = Math.floor((Date.now() - d) / 86400000)
-      
-      if(diff === 0) return this.cur === 'uz' ? 'Bugun' : this.cur === 'ru' ? 'Сегодня' : 'Today'
-      if(diff === 1) return this.cur === 'uz' ? 'Kecha' : this.cur === 'ru' ? 'Вчера' : 'Yesterday'
-      if(diff < 7) return `${diff} ${this.cur === 'uz' ? 'kun oldin' : this.cur === 'ru' ? 'дн. назад' : 'days ago'}`
-      
+
+      if (diff === 0) return this.cur === 'uz' ? 'Bugun' : this.cur === 'ru' ? 'Сегодня' : 'Today'
+      if (diff === 1) return this.cur === 'uz' ? 'Kecha' : this.cur === 'ru' ? 'Вчера' : 'Yesterday'
+      if (diff < 7) return `${diff} ${this.cur === 'uz' ? 'kun oldin' : this.cur === 'ru' ? 'дн. назад' : 'days ago'}`
+
       return d.toLocaleDateString(this.cur === 'uz' ? 'uz-UZ' : this.cur === 'ru' ? 'ru-RU' : 'en-US')
     }
   }
 }
 </script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-button{font-family:inherit;cursor:pointer;border:none;outline:none}
-
-.app.dark{--bg:#000;--bg2:#0a0a0f;--card:rgba(18,18,28,0.85);--card-s:#12121c;--txt:#f5f5f7;--txt2:#a0a0b0;--txt3:#606070;--brd:rgba(255,255,255,0.08);--acc:#a78bfa;--acc2:#e879f9;--acc3:#fb923c;--glow:rgba(167,139,250,0.45);--glow2:rgba(232,121,249,0.35);--shadow:0 20px 60px rgba(0,0,0,0.6)}
-.app.light{--bg:#f8f9fa;--bg2:#e9ecef;--card:rgba(255,255,255,0.8);--card-s:#fff;--txt:#1a1a2e;--txt2:#5a5a70;--txt3:#8888a0;--brd:rgba(0,0,0,0.08);--acc:#6366f1;--acc2:#a855f7;--acc3:#ea580c;--glow:rgba(99,102,241,0.35);--glow2:rgba(168,85,247,0.25);--shadow:0 20px 60px rgba(0,0,0,0.12)}
-
-.app{min-height:100vh;background:var(--bg);color:var(--txt);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;overflow-x:hidden;position:relative;transition:background .5s ease,color .5s ease}
-
-.noise-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px 160px}
-.app.dark .noise-overlay{opacity:.04}
-.app.light .noise-overlay{opacity:.02}
-
-.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.orb{position:absolute;border-radius:50%;filter:blur(100px);animation:driftOrb 20s ease-in-out infinite alternate;will-change:transform}
-.app.dark .orb{opacity:.4}
-.app.light .orb{opacity:.15}
-
-.orb-1{width:500px;height:500px;background:#7c3aed;top:-200px;left:-180px;animation-delay:0s}
-.orb-2{width:400px;height:400px;background:#a855f7;top:20%;right:-150px;animation-delay:-5s}
-.orb-3{width:450px;height:450px;background:#ea580c;bottom:-180px;left:10%;animation-delay:-10s}
-.orb-4{width:350px;height:350px;background:#0ea5e9;bottom:15%;left:-100px;animation-delay:-14s}
-.orb-5{width:300px;height:300px;background:#e879f9;top:8%;left:50%;animation-delay:-7s}
-.orb-6{width:380px;height:380px;background:#8b5cf6;top:55%;right:8%;animation-delay:-17s}
-
-@keyframes driftOrb{0%{transform:translate(0,0) scale(1)}100%{transform:translate(50px,-60px) scale(1.1)}}
-
-.particle-canvas{position:absolute;inset:0;width:100%;height:100%}
-.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(167,139,250,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(167,139,250,0.05) 1px,transparent 1px);background-size:50px 50px}
-.app.light .grid-bg{opacity:.5}
-.gradient-overlay{position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(167,139,250,0.06),transparent 50%)}
-
-.progress-bar{position:fixed;top:0;left:0;height:3px;z-index:9999;background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc3));transition:width .1s linear}
-.progress-glow{position:absolute;right:-3px;top:-4px;width:12px;height:12px;border-radius:50%;background:var(--acc2);box-shadow:0 0 20px 8px var(--acc2)}
-.progress-particles{position:absolute;right:0;top:0;width:100px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3));animation:particleFlow 2s linear infinite}
-@keyframes particleFlow{0%{transform:translateX(-100px);opacity:0}50%{opacity:1}100%{transform:translateX(100px);opacity:0}}
-
-.nav{position:fixed;top:0;left:0;right:0;z-index:8000;transition:all .4s cubic-bezier(0.4,0,0.2,1)}
-.nav.scrolled{background:var(--card);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);box-shadow:0 4px 40px rgba(0,0,0,0.25);border-bottom:1px solid var(--brd)}
-.nav-wrap{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:72px;padding:0 2rem;gap:1.5rem}
-
-.logo{display:flex;align-items:center;gap:.7rem;cursor:pointer;transition:transform .3s ease}
-.logo:hover{transform:scale(1.05)}
-.logo-svg{width:38px;height:38px}
-.logo-txt{font-size:1.3rem;font-weight:900;background:linear-gradient(135deg,var(--acc),var(--acc2),var(--acc3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.5px}
-
-.nav-links{display:flex;gap:2rem}
-.nlink{color:var(--txt2);font-size:.95rem;font-weight:600;position:relative;padding:.4rem 0;transition:color .3s ease;cursor:pointer}
-.nlink:hover{color:var(--txt)}
-.nlink-line{position:absolute;bottom:-2px;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--acc),var(--acc3));border-radius:2px;transition:width .4s cubic-bezier(0.4,0,0.2,1)}
-.nlink:hover .nlink-line{width:100%}
-
-.nav-right{display:flex;align-items:center;gap:.8rem}
-
-.mobile-lang-wrapper{position:relative;display:flex}
-.mobile-lang-btn{display:flex;align-items:center;gap:.4rem;padding:.5rem .8rem;border-radius:12px;background:var(--card);border:1px solid var(--brd);color:var(--txt);font-size:1.1rem;transition:all .3s cubic-bezier(0.4,0,0.2,1)}
-.mobile-lang-btn:hover{border-color:var(--acc);box-shadow:0 4px 16px var(--glow)}
-.current-flag{font-size:1.2rem}
-.lang-dropdown{position:absolute;top:calc(100% + .5rem);right:0;min-width:160px;background:var(--card);backdrop-filter:blur(40px);border:1px solid var(--brd);border-radius:16px;padding:.5rem;box-shadow:var(--shadow);z-index:9999}
-.lang-option{display:flex;align-items:center;gap:.8rem;width:100%;padding:.7rem 1rem;border-radius:12px;background:transparent;color:var(--txt2);font-size:.9rem;font-weight:600;transition:all .25s cubic-bezier(0.4,0,0.2,1);text-align:left}
-.lang-option:hover{background:var(--brd);color:var(--txt)}
-.lang-option.active{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff}
-.lang-flag{font-size:1.3rem}
-.lang-name{flex:1}
-
-.lang-dropdown-enter-active,.lang-dropdown-leave-active{transition:all .3s cubic-bezier(0.4,0,0.2,1)}
-.lang-dropdown-enter-from,.lang-dropdown-leave-to{opacity:0;transform:translateY(-10px) scale(0.95)}
-
-.admin-btn{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#ef4444,#dc2626);border:1px solid rgba(239,68,68,0.3);display:flex;align-items:center;justify-content:center;color:#fff;transition:all .3s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden}
-.admin-btn:hover{transform:scale(1.1);box-shadow:0 8px 32px rgba(239,68,68,0.5)}
-.admin-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(45deg,transparent,rgba(255,255,255,0.2),transparent);transform:translateX(-100%);transition:transform .5s}
-.admin-btn:hover::before{transform:translateX(100%)}
-
-.logout-btn{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#f59e0b,#ea580c);border:1px solid rgba(245,158,11,0.3);display:flex;align-items:center;justify-content:center;color:#fff;transition:all .3s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden}
-.logout-btn:hover{transform:scale(1.1);box-shadow:0 8px 32px rgba(245,158,11,0.5)}
-.logout-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(45deg,transparent,rgba(255,255,255,0.2),transparent);transform:translateX(-100%);transition:transform .5s}
-.logout-btn:hover::before{transform:translateX(100%)}
-
-.tbtn{width:44px;height:44px;border-radius:14px;background:var(--card);border:1px solid var(--brd);font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .3s cubic-bezier(0.4,0,0.2,1)}
-.tbtn:hover{transform:scale(1.1) rotate(15deg);box-shadow:0 6px 24px var(--glow)}
-.theme-icon{display:inline-block;transition:transform .3s ease}
-
-.mbtn{display:none;width:44px;height:44px;border-radius:14px;background:var(--card);border:1px solid var(--brd);flex-direction:column;align-items:center;justify-content:center;gap:5px}
-.hline{width:22px;height:2.5px;background:var(--txt);border-radius:2px;transition:all .3s cubic-bezier(0.4,0,0.2,1)}
-.h1.open{transform:rotate(45deg) translate(6px,6px)}
-.h2.open{opacity:0}
-.h3.open{transform:rotate(-45deg) translate(6px,-6px)}
-
-.mmenu{max-height:0;overflow:hidden;background:var(--card);backdrop-filter:blur(40px);border-top:1px solid var(--brd);transition:max-height .4s cubic-bezier(0.4,0,0.2,1)}
-.mmenu.open{max-height:400px}
-.mlink{display:flex;align-items:center;gap:.8rem;padding:1rem 2rem;color:var(--txt2);font-size:.95rem;font-weight:600;border-bottom:1px solid var(--brd);transition:all .25s ease;cursor:pointer}
-.mlink:hover{color:var(--txt);background:var(--brd);padding-left:2.5rem}
-.mlink-icon{font-size:1.2rem}
-
-.modal-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;padding:2rem}
-
-.admin-modal{background:var(--card);border:1px solid var(--brd);border-radius:32px;max-width:900px;width:100%;max-height:85vh;overflow-y:auto;box-shadow:var(--shadow);backdrop-filter:blur(40px)}
-
-.admin-header{display:flex;align-items:center;justify-content:space-between;padding:2rem 2.5rem;border-bottom:1px solid var(--brd);position:sticky;top:0;background:var(--card);backdrop-filter:blur(40px);z-index:10}
-.admin-header h3{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.admin-close{width:36px;height:36px;border-radius:50%;background:var(--brd);color:var(--txt);font-size:1.2rem;display:flex;align-items:center;justify-content:center;transition:all .3s ease}
-.admin-close:hover{background:var(--acc);color:#fff;transform:rotate(90deg)}
-
-.admin-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;padding:2rem 2.5rem}
-.admin-stat-card{background:var(--card-s);border:1px solid var(--brd);border-radius:20px;padding:1.5rem;text-align:center;transition:all .3s ease}
-.admin-stat-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px var(--glow)}
-.admin-stat-icon{font-size:2rem;margin-bottom:.8rem}
-.admin-stat-value{font-size:2.2rem;font-weight:900;background:linear-gradient(135deg,var(--acc),var(--acc3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.3rem}
-.admin-stat-label{font-size:.85rem;color:var(--txt3);font-weight:600}
-
-.admin-search{padding:0 2.5rem 1.5rem}
-.admin-search-input{width:100%;padding:1rem 1.5rem;border-radius:16px;background:var(--card-s);border:2px solid var(--brd);color:var(--txt);font-size:.95rem;transition:all .3s ease}
-.admin-search-input:focus{border-color:var(--acc);box-shadow:0 0 0 4px var(--glow);outline:none}
-
-.admin-requests{padding:0 2.5rem 2rem;max-height:400px;overflow-y:auto}
-.admin-req-item{background:var(--card-s);border:1px solid var(--brd);border-radius:20px;padding:1.5rem;margin-bottom:1rem;display:flex;gap:1rem;transition:all .3s ease}
-.admin-req-item:hover{border-color:var(--acc);box-shadow:0 8px 32px var(--glow)}
-
-.admin-req-content{flex:1}
-.admin-req-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.8rem}
-.admin-req-badge{padding:.3rem .9rem;border-radius:12px;font-size:.75rem;font-weight:700;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff}
-.admin-req-region,.admin-req-date{font-size:.8rem;color:var(--txt3);font-weight:600}
-.admin-req-text{color:var(--txt);font-size:.95rem;line-height:1.7;margin-bottom:.8rem}
-.admin-req-stats{display:flex;gap:1.5rem;font-size:.85rem;color:var(--txt3);font-weight:600}
-
-.admin-delete-btn{width:44px;height:44px;border-radius:50%;background:rgba(239,68,68,0.1);border:2px solid rgba(239,68,68,0.3);color:#ef4444;flex-shrink:0;transition:all .3s cubic-bezier(0.4,0,0.2,1)}
-.admin-delete-btn:hover{background:#ef4444;color:#fff;transform:scale(1.1);box-shadow:0 8px 24px rgba(239,68,68,0.4)}
-
-.email-modal{background:var(--card);border:1px solid var(--brd);border-radius:28px;padding:3rem 2.5rem;max-width:480px;width:100%;box-shadow:var(--shadow);backdrop-filter:blur(40px);text-align:center;position:relative}
-.modal-close{position:absolute;top:1.5rem;right:1.5rem;width:32px;height:32px;border-radius:50%;background:var(--brd);color:var(--txt);font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .3s ease}
-.modal-close:hover{background:var(--acc);color:#fff;transform:rotate(90deg)}
-.email-modal h3{font-size:1.8rem;font-weight:800;margin-bottom:.8rem;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.email-desc{color:var(--txt2);font-size:.95rem;margin-bottom:2rem;line-height:1.7}
-.email-input{width:100%;padding:1rem 1.5rem;border-radius:16px;background:var(--card-s);border:2px solid var(--brd);color:var(--txt);font-size:.95rem;margin-bottom:1.5rem;transition:all .3s ease}
-.email-input:focus{border-color:var(--acc);box-shadow:0 0 0 4px var(--glow);outline:none}
-
-.modal-fade-enter-active,.modal-fade-leave-active{transition:all .4s cubic-bezier(0.4,0,0.2,1)}
-.modal-fade-enter-from,.modal-fade-leave-to{opacity:0}
-.modal-fade-enter-from .admin-modal,
-.modal-fade-enter-from .email-modal,
-.modal-fade-leave-to .admin-modal,
-.modal-fade-leave-to .email-modal{transform:scale(0.9) translateY(30px)}
-
-@media(max-width:900px){
-  .nav-links{display:none}
-  .mbtn{display:flex}
-  .admin-stats-grid{grid-template-columns:1fr}
-}
-
-.hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:120px 2rem 100px;text-align:center}
-.hero-inner{max-width:800px;width:100%}
-
-.badge{display:inline-flex;align-items:center;gap:.6rem;padding:.45rem 1.2rem;border-radius:24px;background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--brd);color:var(--acc);font-size:.85rem;font-weight:700;margin-bottom:2rem;box-shadow:0 4px 20px rgba(0,0,0,0.1)}
-.badge-pulse{width:9px;height:9px;border-radius:50%;background:#22c55e;box-shadow:0 0 12px #22c55e;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
-
-.h1-top{display:block;font-size:clamp(2.8rem,7vw,5.5rem);font-weight:800;color:var(--txt);letter-spacing:-2.5px;line-height:1.05}
-.h1-bot{display:block;font-size:clamp(3.5rem,9vw,8rem);font-weight:900;line-height:1.05;letter-spacing:-4px;background:linear-gradient(135deg,var(--acc) 0%,var(--acc2) 40%,var(--acc3) 100%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradientShift 6s ease infinite;position:relative}
-@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-
-.cursor-blink{display:inline-block;width:4px;height:1em;background:var(--acc);margin-left:.1em;animation:blink 1s infinite}
-@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
-
-.hero-p{color:var(--txt2);font-size:1.15rem;line-height:1.9;max-width:580px;margin:1.5rem auto 3rem}
-
-.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:4rem}
-.btn{position:relative;overflow:hidden;padding:1rem 2.5rem;border-radius:16px;font-size:1rem;font-weight:700;transition:all .3s cubic-bezier(0.4,0,0.2,1);display:inline-flex;align-items:center;gap:.6rem}
-.btn-pri{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;box-shadow:0 8px 28px var(--glow)}
-.btn-pri .btn-shine{position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.25),transparent);transition:left .6s ease;pointer-events:none}
-.btn-pri:hover .btn-shine{left:150%}
-.btn-pri:hover{transform:translateY(-3px);box-shadow:0 16px 48px var(--glow)}
-.btn-out{background:var(--card);backdrop-filter:blur(16px);border:2px solid var(--brd);color:var(--txt)}
-.btn-out:hover{border-color:var(--acc);box-shadow:0 12px 36px var(--glow);transform:translateY(-3px)}
-
-.btn-ghost{background:transparent;backdrop-filter:none;border:2px solid var(--brd);color:var(--txt2)}
-.btn-ghost:hover{border-color:var(--acc);color:var(--acc);box-shadow:0 8px 28px var(--glow);transform:translateY(-3px)}
-
-.btn-full{width:100%;justify-content:center;margin-top:.8rem}
-.btn-full:disabled{opacity:.5;transform:none!important;box-shadow:none!important;cursor:not-allowed}
-
-.spinner{animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.stats{display:flex;gap:3.5rem;justify-content:center;flex-wrap:wrap}
-.stat{text-align:center}
-.stat-n{font-size:clamp(2.2rem,5vw,3.2rem);font-weight:900;background:linear-gradient(135deg,var(--acc),var(--acc3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
-.stat-l{font-size:.8rem;font-weight:700;color:var(--txt3);letter-spacing:1.5px;text-transform:uppercase;margin-top:.5rem}
-
-.hero-float{position:absolute;font-size:2.5rem;opacity:.3;animation:float 6s ease-in-out infinite;pointer-events:none}
-.float-1{top:15%;left:10%;animation-delay:0s}
-.float-2{top:25%;right:15%;animation-delay:2s}
-.float-3{bottom:20%;left:12%;animation-delay:4s}
-@keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(10deg)}}
-
-.anim-in{opacity:0;transform:translateY(30px);animation:slideUp .8s cubic-bezier(0.25,0.46,0.45,0.94) forwards;animation-delay:var(--d,0s)}
-@keyframes slideUp{to{opacity:1;transform:translateY(0)}}
-
-.sec{position:relative;z-index:1;padding:120px 2rem}
-.sec-wrap{max-width:1200px;margin:0 auto}
-.sec-head{text-align:center;margin-bottom:70px}
-
-.tag{display:inline-block;padding:.35rem 1.1rem;border-radius:20px;background:var(--card);backdrop-filter:blur(12px);border:1px solid var(--brd);color:var(--acc);font-size:.8rem;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:1rem}
-.sec-h2{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;color:var(--txt);letter-spacing:-1.5px;line-height:1.2;margin-bottom:1rem}
-.sec-p{color:var(--txt2);font-size:1.1rem;max-width:580px;margin:0 auto;line-height:1.8}
-
-.reveal{opacity:0;transform:translateY(40px);transition:all .7s cubic-bezier(0.25,0.46,0.45,0.94);transition-delay:calc(var(--di,0) * 0.08s)}
-.reveal.vis{opacity:1;transform:translateY(0)}
-
-.sec-why{background:linear-gradient(180deg,transparent 0%,rgba(124,58,237,0.06) 50%,transparent 100%)}
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-@media(max-width:900px){.feat-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.feat-grid{grid-template-columns:1fr}}
-
-.fcard{position:relative;overflow:hidden;background:var(--card);backdrop-filter:blur(30px);border:1px solid var(--brd);border-radius:24px;padding:2.5rem 2rem;transition:all .4s cubic-bezier(0.4,0,0.2,1);cursor:pointer}
-
-@media (hover: hover) {
-  .fcard:hover{box-shadow:var(--shadow);border-color:var(--acc);transform:translateY(-8px)}
-  .fcard:hover .fcard-glow{opacity:.3}
-  .fcard:hover .fcard-border{opacity:1}
-  .fcard:hover .fcard-sparkle{opacity:1;animation:sparkle 1.5s ease infinite}
-  .fcard:hover .ficon{transform:scale(1.1) rotate(5deg)}
-  .fcard:hover .ftitle{color:var(--acc)}
-  .fcard:hover .fdesc{color:var(--txt)}
-  .fcard:hover .fcard-arrow{opacity:1;transform:translateX(0)}
-}
-
-@media (hover: none) {
-  .fcard:active{box-shadow:var(--shadow);border-color:var(--acc);transform:translateY(-4px)}
-}
-
-.fcard-glow{position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:180px;height:180px;border-radius:50%;background:var(--acc);filter:blur(70px);opacity:0;transition:opacity .5s ease;pointer-events:none}
-.fcard-border{position:absolute;inset:0;border-radius:24px;pointer-events:none;opacity:0;transition:opacity .5s ease;z-index:0}
-.fcard-border::before{content:'';position:absolute;inset:-1px;border-radius:25px;background:linear-gradient(135deg,transparent 30%,var(--acc),var(--acc2),transparent 70%);z-index:0}
-.fcard-border::after{content:'';position:absolute;inset:1px;border-radius:23px;background:var(--card-s);z-index:1}
-.fcard-sparkle{position:absolute;top:20px;right:20px;width:6px;height:6px;background:var(--acc);border-radius:50%;opacity:0;transition:opacity .3s ease;z-index:2}
-@keyframes sparkle{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.5}}
-
-.ficon{font-size:2.5rem;margin-bottom:1.2rem;transition:transform .3s ease;position:relative;z-index:2}
-.ftitle{font-size:1.15rem;font-weight:800;color:var(--txt);margin-bottom:.7rem;transition:color .3s ease;position:relative;z-index:2}
-.fdesc{color:var(--txt2);font-size:.92rem;line-height:1.75;transition:color .3s ease;position:relative;z-index:2}
-.fcard-arrow{position:absolute;bottom:1.5rem;right:1.5rem;font-size:1.2rem;color:var(--acc);opacity:0;transform:translateX(-10px);transition:all .3s ease;z-index:2}
-
-.sec-sub{background:linear-gradient(180deg,rgba(232,121,249,0.05) 0%,transparent 100%)}
-.form-box{max-width:700px;margin:0 auto;position:relative;background:var(--card);backdrop-filter:blur(35px);border:1px solid var(--brd);border-radius:32px;padding:3rem 2.5rem;box-shadow:var(--shadow)}
-.form-box-glow{position:absolute;bottom:-120px;right:-120px;width:350px;height:350px;border-radius:50%;background:var(--acc2);filter:blur(110px);opacity:.12;pointer-events:none}
-.form-box-particles{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--acc),transparent);animation:particleSweep 3s linear infinite}
-@keyframes particleSweep{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
-
-.fld{margin-bottom:1.8rem}
-.flbl{display:flex;align-items:center;gap:.5rem;font-size:.9rem;font-weight:700;color:var(--txt);margin-bottom:.7rem;letter-spacing:.3px}
-.flbl-icon{font-size:1.1rem}
-.ast{color:var(--acc3)}
-
-.chips{display:flex;flex-wrap:wrap;gap:.6rem}
-.chip{padding:.55rem 1.3rem;border-radius:20px;font-size:.87rem;font-weight:700;background:var(--card-s);border:2px solid var(--brd);color:var(--txt2);transition:all .3s cubic-bezier(0.4,0,0.2,1)}
-.chip:hover{border-color:var(--acc);color:var(--txt);transform:translateY(-2px)}
-.chip.on{background:linear-gradient(135deg,var(--acc),var(--acc2));border-color:transparent;color:#fff;box-shadow:0 6px 24px var(--glow);transform:translateY(-2px)}
-
-.textarea-wrap{position:relative}
-.ta{width:100%;padding:1rem 1.3rem;border-radius:16px;font-size:.95rem;font-family:inherit;line-height:1.7;resize:vertical;background:var(--card-s);border:2px solid var(--brd);color:var(--txt);transition:all .3s ease}
-.ta:focus{border-color:var(--acc);box-shadow:0 0 0 4px var(--glow);outline:none}
-.ta::placeholder{color:var(--txt3)}
-.char-count{position:absolute;bottom:.8rem;right:1rem;font-size:.75rem;color:var(--txt3);pointer-events:none}
-
-.sel-wrap{position:relative}
-.sel{width:100%;padding:1rem 3rem 1rem 1.3rem;border-radius:16px;font-size:.95rem;font-family:inherit;appearance:none;-webkit-appearance:none;background:var(--card-s);border:2px solid var(--brd);color:var(--txt);transition:all .3s ease;cursor:pointer}
-.sel:focus{border-color:var(--acc);box-shadow:0 0 0 4px var(--glow);outline:none}
-.sel-arr{position:absolute;right:1.2rem;top:50%;transform:translateY(-50%);color:var(--txt3);pointer-events:none}
-.sel option{background:var(--card-s);color:var(--txt)}
-
-.ferr{display:block;margin-top:.5rem;font-size:.82rem;color:#f87171;font-weight:600}
-.err-slide-enter-active,.err-slide-leave-active{transition:all .3s ease}
-.err-slide-enter-from,.err-slide-leave-to{opacity:0;transform:translateY(-10px)}
-
-.discl{text-align:center;margin-top:1.6rem;color:var(--txt3);font-size:.85rem;line-height:1.7}
-
-.sec-req{background:linear-gradient(180deg,transparent 0%,rgba(251,146,60,0.05) 100%)}
-
-.filter-controls{margin-bottom:2rem}
-.pills{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:1.5rem}
-.pill{display:flex;align-items:center;gap:.5rem;padding:.55rem 1.5rem;border-radius:20px;font-size:.85rem;font-weight:700;background:var(--card);backdrop-filter:blur(12px);border:2px solid var(--brd);color:var(--txt2);transition:all .3s cubic-bezier(0.4,0,0.2,1)}
-.pill:hover{border-color:var(--acc);color:var(--txt)}
-.pill.on{background:linear-gradient(135deg,var(--acc),var(--acc2));border-color:transparent;color:#fff;box-shadow:0 6px 22px var(--glow)}
-.pill-count{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 .4rem;border-radius:12px;font-size:.75rem;font-weight:800;background:rgba(255,255,255,0.2)}
-
-.sort-options{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
-.sort-btn{display:flex;align-items:center;gap:.5rem;padding:.6rem 1.3rem;border-radius:16px;font-size:.85rem;font-weight:700;background:var(--card);border:2px solid var(--brd);color:var(--txt2);transition:all .3s cubic-bezier(0.4,0,0.2,1)}
-.sort-btn:hover{border-color:var(--acc);color:var(--txt)}
-.sort-btn.active{background:linear-gradient(135deg,var(--acc),var(--acc2));border-color:transparent;color:#fff;box-shadow:0 8px 28px var(--glow)}
-
-.sortlabel{display:flex;align-items:center;gap:.5rem;justify-content:center;color:var(--txt3);font-size:.82rem;font-weight:600;margin-bottom:2rem}
-.live-indicator{display:inline-flex;align-items:center;gap:.4rem;margin-left:1rem;padding:.3rem .8rem;border-radius:12px;background:rgba(239,68,68,0.1);color:#ef4444;font-weight:700;font-size:.7rem}
-.live-dot{width:6px;height:6px;border-radius:50%;background:#ef4444;animation:pulse 2s infinite}
-
-.search-bar{position:relative;max-width:600px;margin:0 auto 3rem;display:flex;align-items:center;background:var(--card);border:2px solid var(--brd);border-radius:20px;padding:.8rem 1.5rem;transition:all .3s ease}
-.search-bar:focus-within{border-color:var(--acc);box-shadow:0 0 0 4px var(--glow)}
-.search-icon{color:var(--txt3);flex-shrink:0}
-.search-input{flex:1;background:transparent;border:none;outline:none;color:var(--txt);font-size:.95rem;font-family:inherit;padding:0 1rem}
-.search-input::placeholder{color:var(--txt3)}
-.search-clear{width:28px;height:28px;border-radius:50%;background:var(--brd);color:var(--txt3);font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:all .3s ease;flex-shrink:0}
-.search-clear:hover{background:var(--acc);color:#fff;transform:rotate(90deg)}
-
-.req-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.5rem}
-@media(max-width:700px){.req-grid{grid-template-columns:1fr}}
-
-.card-list-enter-active{transition:all .5s cubic-bezier(0.4,0,0.2,1)}
-.card-list-leave-active{transition:all .3s cubic-bezier(0.4,0,0.2,1)}
-.card-list-enter-from{opacity:0;transform:translateY(30px) scale(0.95)}
-.card-list-leave-to{opacity:0;transform:translateY(-30px) scale(0.95)}
-.card-list-move{transition:transform .5s cubic-bezier(0.4,0,0.2,1)}
-
-.rcard{position:relative;overflow:hidden;background:var(--card);backdrop-filter:blur(30px);border:1px solid var(--brd);border-radius:24px;padding:1.8rem;display:flex;flex-direction:column;gap:1rem;transition:all .4s cubic-bezier(0.4,0,0.2,1);will-change:transform}
-
-@media (hover: hover) {
-  .rcard:hover{box-shadow:var(--shadow);border-color:var(--acc)}
-  .rcard:hover .rcard-shine{left:160%}
-  .rcard:hover .rcard-glow{opacity:.2}
-}
-
-.rcard-shine{position:absolute;top:0;left:-100%;width:55%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,0.1),transparent);transition:left .6s ease;pointer-events:none}
-.rcard-glow{position:absolute;bottom:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:var(--acc);filter:blur(80px);opacity:0;transition:opacity .5s ease;pointer-events:none}
-.rcard-new{position:absolute;top:1rem;right:1rem;font-size:1.2rem;animation:bounce 1s ease infinite}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-
-.rcard-trending{position:absolute;top:1rem;left:1rem;display:flex;align-items:center;gap:.4rem;padding:.4rem .9rem;border-radius:14px;background:linear-gradient(135deg,#f59e0b,#ea580c);color:#fff;font-size:.72rem;font-weight:800;letter-spacing:.5px;box-shadow:0 4px 16px rgba(245,158,11,0.4);z-index:10}
-
-.rcard-top{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap;position:relative;z-index:1}
-.rbadge{padding:.35rem 1rem;border-radius:14px;font-size:.78rem;font-weight:700;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff}
-.rloc{font-size:.8rem;color:var(--txt3);font-weight:500}
-.rtxt{color:var(--txt);font-size:.94rem;line-height:1.75;flex:1;position:relative;z-index:1}
-.rbot{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--brd);position:relative;z-index:1}
-.rdate{font-size:.78rem;color:var(--txt3)}
-
-.lbk{display:flex;align-items:center;gap:.5rem;padding:.5rem 1rem;border-radius:18px;background:var(--card-s);border:2px solid var(--brd);color:var(--txt2);transition:all .3s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden}
-.lbk:hover{border-color:#f43f5e;transform:scale(1.15);box-shadow:0 6px 22px rgba(244,63,94,0.3)}
-.lbk:hover .lheart{color:#f43f5e}
-.lbk:hover .lcnt{color:#f43f5e}
-.lbk.on{border-color:#f43f5e;background:rgba(244,63,94,0.15)}
-.lbk.on .lheart{color:#f43f5e}
-.lbk.on .lcnt{color:#f43f5e;font-weight:800}
-.lbk.pulse .lheart{animation:heartPop .5s cubic-bezier(0.34,1.56,0.64,1)}
-@keyframes heartPop{0%{transform:scale(1)}40%{transform:scale(1.6)}100%{transform:scale(1)}}
-
-.lheart{display:flex;align-items:center;color:var(--txt3);transition:color .3s ease}
-.lcnt{font-size:.9rem;font-weight:700;color:var(--txt2);min-width:20px;text-align:center;transition:color .3s ease}
-
-.empty{text-align:center;padding:5rem 2rem}
-.empty-ic{font-size:4rem;margin-bottom:1.5rem;animation:float 3s ease-in-out infinite}
-.empty p{color:var(--txt3);font-size:1.1rem}
-
-.load-more-section{text-align:center;margin-top:3rem}
-.load-more-btn{padding:1rem 3rem}
-
-.footer{position:relative;z-index:1;padding:4rem 2rem 2rem;border-top:1px solid var(--brd);background:linear-gradient(180deg,transparent,var(--bg2))}
-.ft-wrap{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:3rem;flex-wrap:wrap;margin-bottom:3rem}
-.ft-desc{color:var(--txt2);font-size:.9rem;line-height:1.8;max-width:360px;margin-top:.8rem}
-.ft-social{display:flex;gap:.8rem;margin-top:1.2rem}
-.social-link{width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:all .3s cubic-bezier(0.4,0,0.2,1);text-decoration:none}
-.social-link:hover{transform:translateY(-4px);box-shadow:0 8px 24px var(--glow);border-color:var(--acc)}
-.ft-ltitle{font-size:.85rem;font-weight:800;color:var(--txt);letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem}
-.ft-link{display:block;color:var(--txt3);font-size:.9rem;padding:.3rem 0;transition:all .25s ease;cursor:pointer}
-.ft-link:hover{color:var(--acc);padding-left:.5rem}
-.ft-bot{max-width:1200px;margin:0 auto;padding-top:2rem;border-top:1px solid var(--brd);text-align:center}
-.ft-bot p{color:var(--txt3);font-size:.85rem}
-
-.toast{position:fixed;bottom:2.5rem;left:2.5rem;z-index:99999;display:flex;align-items:center;gap:1rem;padding:1.3rem 2rem;border-radius:24px;min-width:340px;max-width:420px;background:var(--card-s);border:1px solid var(--brd);color:var(--txt);font-size:.95rem;font-weight:600;box-shadow:0 20px 60px rgba(0,0,0,0.5);backdrop-filter:blur(40px)}
-.toast:not(.err){border-color:rgba(34,197,94,0.4);box-shadow:0 20px 60px rgba(34,197,94,0.2)}
-.toast.err{border-color:rgba(239,68,68,0.4);box-shadow:0 20px 60px rgba(239,68,68,0.2)}
-
-.toast-slide-enter-active,.toast-slide-leave-active{transition:all .5s cubic-bezier(0.34,1.56,0.64,1)}
-.toast-slide-enter-from,.toast-slide-leave-to{transform:translateX(-120%) scale(0.9);opacity:0}
-
-.toast-ic{width:42px;height:42px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#22c55e,#16a34a);box-shadow:0 6px 20px rgba(34,197,94,0.5)}
-.toast.err .toast-ic{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 6px 20px rgba(239,68,68,0.5)}
-.icon-swap-enter-active,.icon-swap-leave-active{transition:all .25s ease}
-.icon-swap-enter-from,.icon-swap-leave-to{transform:scale(0) rotate(90deg);opacity:0}
-
-.toast-body{display:flex;flex-direction:column;gap:.2rem;flex:1}
-.toast-title{font-size:.85rem;font-weight:800;color:#22c55e;letter-spacing:.5px;text-transform:uppercase}
-.toast.err .toast-title{color:#ef4444}
-.toast-txt{font-size:.92rem;color:var(--txt2);line-height:1.5}
-.toast-close{width:28px;height:28px;border-radius:50%;background:transparent;border:none;color:var(--txt3);font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .25s ease;cursor:pointer;flex-shrink:0}
-.toast-close:hover{background:var(--brd);color:var(--txt);transform:rotate(90deg)}
-
-.sctop{position:fixed;bottom:2.5rem;right:2.5rem;z-index:8000;width:54px;height:54px;border-radius:50%;background:var(--card);backdrop-filter:blur(20px);border:2px solid var(--brd);color:var(--txt);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 28px rgba(0,0,0,0.25);transition:all .4s cubic-bezier(0.34,1.56,0.64,1)}
-.sctop:hover{transform:translateY(-6px);box-shadow:0 12px 40px var(--glow);border-color:var(--acc)}
-
-.scale-fade-enter-active,.scale-fade-leave-active{transition:all .4s cubic-bezier(0.34,1.56,0.64,1)}
-.scale-fade-enter-from,.scale-fade-leave-to{transform:translateY(30px) scale(0.8);opacity:0}
-
-.fade-enter-active,.fade-leave-active{transition:opacity .3s ease}
-.fade-enter-from,.fade-leave-to{opacity:0}
-
-@media(max-width:700px){
-  .sec,.sec-why,.sec-sub,.sec-req{padding:90px 1.5rem}
-  .hero{padding:110px 1.5rem 80px}
-  .form-box{padding:2rem 1.5rem}
-  .hero-btns{flex-direction:column;align-items:stretch}
-  .hero-btns .btn{width:100%;max-width:100%;justify-content:center}
-  .stats{gap:2rem}
-  .toast{bottom:1.5rem;left:1.5rem;right:1.5rem;min-width:auto}
-  .sctop{bottom:1.5rem;right:1.5rem;width:48px;height:48px}
-  .nav-wrap{padding:0 1.5rem}
-  .admin-modal{margin:1rem;max-width:100%}
-  .email-modal{margin:1rem}
-  .search-bar{margin-bottom:2rem}
-  .sort-options{justify-content:stretch}
-  .sort-btn{flex:1;justify-content:center}
-}
-
-@media(max-width:500px){
-  .logo-txt{display:none}
-  .h1-top{font-size:2.2rem}
-  .h1-bot{font-size:2.8rem}
-  .admin-stats-grid{padding:1.5rem}
-  .admin-requests{padding:0 1.5rem 1.5rem}
-}
+<style>
+@import "@/assets/app.css";
 </style>
+
+
+
+<!-- 
+
+<template>
+  <div class="app" :class="theme">
+    <TheNav
+      :theme="theme"
+      :t="t"
+      :cur="cur"
+      :langs="langs"
+      :navItems="navItems"
+      :isAdmin="isAdmin"
+      @toggleTheme="toggleTheme"
+      @changeLang="cur = $event"
+      @goto="goto"
+      @openAdminLogin="showEmailLogin = true"
+      @logout="logout"
+    />
+
+    <HeroSection :t="t" :heroStats="heroStats" @goto="goto" />
+    <AboutSection :t="t" />
+    <SubmitSection :t="t" :cats="cats" :regs="regs" @submitted="onNewRequest" />
+    <RequestsSection :t="t" :cats="cats" :reqs="reqs" :uid="uid" @like="like" />
+    <FooterSection :t="t" @goto="goto" />
+
+    <AdminPanel v-if="isAdmin" :reqs="reqs" @delete="deleteRequest" />
+    <Toast v-if="toastOn" :msg="toastMsg" :err="toastErr" @close="toastOn=false" />
+    <ScrollTop v-if="scrolled" @click="goto('hero')" />
+  </div>
+</template>
+
+<script>
+import TheNav from './components/TheNav.vue'
+import HeroSection from './components/HeroSection.vue'
+import AboutSection from './components/AboutSection.vue'
+import SubmitSection from './components/SubmitSection.vue'
+import RequestsSection from './components/RequestsSection.vue'
+import FooterSection from './components/FooterSection.vue'
+import AdminPanel from './components/AdminPanel.vue'
+import Toast from './components/Toast.vue'
+import ScrollTop from './components/ScrollTop.vue'
+
+export default {
+  components: {
+    TheNav,
+    HeroSection,
+    AboutSection,
+    SubmitSection,
+    RequestsSection,
+    FooterSection,
+    AdminPanel,
+    Toast,
+    ScrollTop
+  },
+
+  data() {
+    return {
+      theme: 'dark',
+      cur: 'uz',
+      scrolled: false,
+      uid: localStorage.getItem('xv_uid') || Date.now().toString(36),
+      reqs: [],
+      toastOn: false,
+      toastMsg: '',
+      toastErr: false,
+      isAdmin: localStorage.getItem('xv_admin') === 'true',
+      showEmailLogin: false,
+
+      langs: [
+        { code: 'uz', flag: '🇺🇿' },
+        { code: 'ru', flag: '🇷🇺' },
+        { code: 'en', flag: '🇬🇧' }
+      ],
+
+      cats: ["Ta'lim","Sog'liqni Saqlash","Yo'llar","Ekologiya","Sport","Madaniyat","Iqtisodiyot","Boshqa"],
+      regs: ['Toshkent sh.','Andijon vil.','Samarqand vil.'],
+
+      i18n: {
+        uz: {
+          brand: 'Xalq Ovozi',
+          hero: { line1:'Ovozingiz', line2:'Muhim!', desc:'Taklif yuboring', cta:'Yuborish' },
+          why: { title:'Nega biz', sub:'Xalq uchun', list:[] },
+          sub: { title:'Taklif yuboring', btn:'Yuborish' },
+          req: { title:'Talablar' },
+          ft: { desc:'Xalq uchun platforma' },
+          toast: { ok:'Yuborildi', bad:'Xatolik' }
+        },
+        ru: {
+          brand: 'Голос Народа',
+          hero: { line1:'Ваш голос', line2:'Важен!', desc:'Отправьте запрос', cta:'Отправить' },
+          why: { title:'Почему мы', sub:'Для народа', list:[] },
+          sub: { title:'Отправить', btn:'Отправить' },
+          req: { title:'Запросы' },
+          ft: { desc:'Платформа для народа' },
+          toast: { ok:'Отправлено', bad:'Ошибка' }
+        },
+        en: {
+          brand: "People's Voice",
+          hero: { line1:'Your Voice', line2:'Matters!', desc:'Submit request', cta:'Submit' },
+          why: { title:'Why Us', sub:'For people', list:[] },
+          sub: { title:'Submit', btn:'Submit' },
+          req: { title:'Requests' },
+          ft: { desc:'Platform for people' },
+          toast: { ok:'Submitted', bad:'Error' }
+        }
+      }
+    }
+  },
+
+  computed: {
+    t() {
+      return this.i18n[this.cur] || {}
+    },
+    navItems() {
+      const h = {
+        uz:['Bosh sahifa','Nega biz','Yuborish','Talablar'],
+        ru:['Главная','Почему мы','Запрос','Запросы'],
+        en:['Home','Why','Submit','Requests']
+      }
+      return ['hero','about','submit','requests'].map((id,i)=>({ id, label:h[this.cur][i] }))
+    },
+    heroStats() {
+      return [
+        { val:this.reqs.length, lbl:'Talablar' },
+        { val:this.reqs.reduce((s,r)=>s+r.likes,0), lbl:'Ovozlar' },
+        { val:this.cats.length, lbl:'Kategoriya' }
+      ]
+    }
+  },
+
+  methods: {
+    goto(id) {
+      document.getElementById(id)?.scrollIntoView({behavior:'smooth'})
+    },
+    toggleTheme() {
+      this.theme = this.theme === 'dark' ? 'light' : 'dark'
+    },
+    onNewRequest(r) {
+      this.reqs.unshift(r)
+      this.toastMsg = this.t.toast.ok
+      this.toastErr = false
+      this.toastOn = true
+    },
+    like(r) {
+      r.likes++
+    },
+    deleteRequest(id) {
+      this.reqs = this.reqs.filter(r=>r.id!==id)
+    },
+    logout() {
+      this.isAdmin = false
+      localStorage.setItem('xv_admin','false')
+    }
+  },
+
+  mounted() {
+    window.addEventListener('scroll',()=>{
+      this.scrolled = window.scrollY > 80
+    })
+  }
+}
+</script>
+
+<style>
+@import "@/assets/app.css";
+</style> 
+
+
+
+<!-- 
+<template>
+  <div class="app" :class="theme">
+    <TheNav
+      :t="t"
+      :navItems="navItems"
+      @goto="goto"
+      @toggleTheme="toggleTheme"
+    />
+
+    <HeroSection :t="t" @goto="goto" />
+    <AboutSection :t="t" />
+    <SubmitSection :t="t" />
+    <RequestsSection :t="t" />
+    <FooterSection :t="t" @goto="goto" />
+
+    <Toast v-if="toastOn" :msg="toastMsg" :err="toastErr" @close="toastOn=false" />
+    <ScrollTop v-if="scrolled" @click="goto('hero')" />
+  </div>
+</template>
+
+<script>
+import TheNav from './components/TheNav.vue'
+import HeroSection from './components/HeroSection.vue'
+import AboutSection from './components/AboutSection.vue'
+import SubmitSection from './components/SubmitSection.vue'
+import RequestsSection from './components/RequestsSection.vue'
+import FooterSection from './components/FooterSection.vue'
+import Toast from './components/Toast.vue'
+import ScrollTop from './components/ScrollTop.vue'
+
+export default {
+  components:{ TheNav,HeroSection,AboutSection,SubmitSection,RequestsSection,FooterSection,Toast,ScrollTop },
+  data(){
+    return{
+      theme:'dark',
+      scrolled:false,
+      toastOn:false,
+      toastMsg:'',
+      toastErr:false,
+      i18n:{
+        uz:{
+          brand:'Xalq Ovozi',
+          hero:{ line1:'Ovozingiz', line2:'Muhim!', desc:'Taklif yuboring', cta:'Yuborish' },
+          why:{ title:'Nega biz', list:[
+            {ic:'🗳️',title:'Ovoz',desc:'Har bir ovoz muhim'},
+            {ic:'⚡',title:'Tezkor',desc:'Tezkor yechim'},
+            {ic:'👁️',title:'Shaffof',desc:'Hamma ochiq'}
+          ]},
+          sub:{ title:'Taklif yuboring' },
+          req:{ title:'Talablar', empty:'Hozircha yo‘q' },
+          ft:{ desc:'Xalq uchun platforma' }
+        }
+      }
+    }
+  },
+  computed:{
+    t(){ return this.i18n.uz },
+    navItems(){
+      return [
+        {id:'hero',label:'Bosh sahifa'},
+        {id:'about',label:'Nega biz'},
+        {id:'submit',label:'Yuborish'},
+        {id:'requests',label:'Talablar'}
+      ]
+    }
+  },
+  mounted(){
+    window.addEventListener('scroll',()=>this.scrolled=window.scrollY>80)
+  },
+  methods:{
+    goto(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth'}) },
+    toggleTheme(){ this.theme=this.theme==='dark'?'light':'dark' }
+  }
+}
+</script>
+
+<style>
+@import "@/assets/app.css";
+</style> -->
